@@ -97,7 +97,7 @@
                 <!-- Wavelength Slider -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">入射光波長 ($\lambda$)</label>
+                        <label class="text-slate-300 font-medium">入射光波長（λ）</label>
                         <span id="wave-lambda-val" class="text-sky-400 font-mono">550 nm</span>
                     </div>
                     <input type="range" id="wave-lambda" min="380" max="750" value="550" step="1" 
@@ -112,8 +112,8 @@
                 <!-- Slit Distance d -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">雙縫間距 ($d$)</label>
-                        <span id="wave-d-val" class="text-sky-400 font-mono">150 $\mu m$</span>
+                        <label class="text-slate-300 font-medium">雙縫間距（d）</label>
+                        <span id="wave-d-val" class="text-sky-400 font-mono">150 μm</span>
                     </div>
                     <input type="range" id="wave-d" min="50" max="400" value="150" step="5" 
                            class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateWaveParams()">
@@ -122,8 +122,8 @@
                 <!-- Slit Width a -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">單縫寬度 ($a$ - 決定繞射包絡線)</label>
-                        <span id="wave-a-val" class="text-sky-400 font-mono">30 $\mu m$</span>
+                        <label class="text-slate-300 font-medium">單縫寬度（a，決定繞射包絡線）</label>
+                        <span id="wave-a-val" class="text-sky-400 font-mono">30 μm</span>
                     </div>
                     <input type="range" id="wave-a" min="10" max="80" value="30" step="2" 
                            class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateWaveParams()">
@@ -132,7 +132,7 @@
                 <!-- Screen Distance L -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">狹縫至屏距離 ($L$)</label>
+                        <label class="text-slate-300 font-medium">狹縫至屏距離（L）</label>
                         <span id="wave-L-val" class="text-sky-400 font-mono">1.20 m</span>
                     </div>
                     <input type="range" id="wave-L" min="0.5" max="3.0" value="1.2" step="0.05" 
@@ -178,7 +178,7 @@
 
                 <!-- Target Metal Selection -->
                 <div class="space-y-2">
-                    <label class="text-sm text-slate-300 font-medium">陰極金屬靶材 (功函數 $\Phi$)</label>
+                    <label class="text-sm text-slate-300 font-medium">陰極金屬靶材（功函數 Φ）</label>
                     <select id="metal-select" onchange="updateMetalWorkFunction()" class="w-full bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
                         <option value="2.29">鉀 Potassium (Φ = 2.29 eV, 截止波長 λ₀ = 541 nm)</option>
                         <option value="2.28">鈉 Sodium (Φ = 2.28 eV, 截止波長 λ₀ = 543 nm)</option>
@@ -192,7 +192,7 @@
                 <!-- Custom Work Function Slider -->
                 <div id="custom-phi-container" class="space-y-2 hidden">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300">自訂功函數 $\Phi$ (eV)</label>
+                        <label class="text-slate-300">自訂功函數 Φ（eV）</label>
                         <span id="custom-phi-val" class="text-amber-400 font-mono">2.50 eV</span>
                     </div>
                     <input type="range" id="custom-phi" min="1.0" max="6.0" value="2.5" step="0.05" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
@@ -201,7 +201,7 @@
                 <!-- Incident Light Wavelength / Frequency -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">入射光波長 ($\lambda$) / 頻率 ($f$)</label>
+                        <label class="text-slate-300 font-medium">入射光波長（λ）/ 頻率（f）</label>
                         <span id="particle-lambda-val" class="text-amber-400 font-mono">350 nm (0.86 PHz)</span>
                     </div>
                     <input type="range" id="particle-lambda" min="150" max="750" value="350" step="1" 
@@ -216,7 +216,7 @@
                 <!-- Light Intensity -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">光照強度 $I$ (光子通量/秒)</label>
+                        <label class="text-slate-300 font-medium">光照強度 I（%）</label>
                         <span id="particle-intensity-val" class="text-amber-400 font-mono">50 %</span>
                     </div>
                     <input type="range" id="particle-intensity" min="10" max="100" value="50" step="5" 
@@ -226,7 +226,7 @@
                 <!-- Applied External Voltage -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">外加電壓 $V$ (正/反向減速電壓)</label>
+                        <label class="text-slate-300 font-medium">外加電壓 V（正向加速／反向減速）</label>
                         <span id="particle-voltage-val" class="text-amber-400 font-mono">0.00 V</span>
                     </div>
                     <input type="range" id="particle-voltage" min="-4.0" max="4.0" value="0.0" step="0.05" 
@@ -241,19 +241,19 @@
                 <!-- Particle Real-time Output Readout -->
                 <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs space-y-1.5 font-mono">
                     <div class="flex justify-between">
-                        <span class="text-slate-400">入射光子能量 $E = hf$:</span>
+                        <span class="text-slate-400">入射光子能量 E = hf：</span>
                         <span id="readout-e-photon" class="text-amber-300 font-bold">3.54 eV</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-slate-400">金屬功函數 $\Phi$:</span>
+                        <span class="text-slate-400">金屬功函數 Φ：</span>
                         <span id="readout-phi" class="text-slate-200">2.29 eV</span>
                     </div>
                     <div class="flex justify-between border-t border-slate-800 pt-1">
-                        <span class="text-slate-400">最大電子初動能 $K_{max}$:</span>
+                        <span class="text-slate-400">最大電子初動能 Kₘₐₓ：</span>
                         <span id="readout-kmax" class="text-emerald-400 font-bold">1.25 eV</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-slate-400">理論截止電壓 $V_{stop}$:</span>
+                        <span class="text-slate-400">理論截止電壓 Vₛₜₒₚ：</span>
                         <span id="readout-vstop" class="text-rose-400 font-bold">-1.25 V</span>
                     </div>
                 </div>
@@ -283,7 +283,7 @@
                 <div class="flex justify-between items-center">
                     <h3 id="chart-title" class="text-sm font-semibold text-slate-300 flex items-center space-x-2">
                         <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
-                        <span>干涉光強分布數據曲線 $I(y)$</span>
+                        <span>干涉光強分布數據曲線 I(y)</span>
                     </h3>
                     <span id="chart-subtitle" class="text-xs font-mono text-slate-500">理論與數值解析 (Analytic Distribution)</span>
                 </div>
@@ -309,16 +309,16 @@
                         <span>1. 光的波動性：雙縫干涉與繞射 (Wave Nature)</span>
                     </h3>
                     <p class="text-slate-400 leading-relaxed text-xs">
-                        1801年托馬斯·楊（Thomas Young）進行了著名的雙縫實驗。當單色光通過兩條相距為 $d$ 的平行狹縫時，兩條縫作為相干波源發出球面波。
-                        當到達距離為 $L$ 的螢幕時，光波發生叠加干涉。
+                        1801年托馬斯·楊（Thomas Young）進行了著名的雙縫實驗。當單色光通過兩條相距為 d 的平行狹縫時，兩條縫作為相干波源發出球面波。
+                        當到達距離為 L 的螢幕時，光波發生叠加干涉。
                     </p>
                     <div class="bg-slate-900 p-3 rounded text-xs font-mono text-sky-300 space-y-1">
-                        <div>單縫繞射因子: $\beta = \frac{\pi a}{\lambda} \sin\theta \approx \frac{\pi a y}{\lambda L}$</div>
-                        <div>雙縫干涉因子: $\alpha = \frac{\pi d}{\lambda} \sin\theta \approx \frac{\pi d y}{\lambda L}$</div>
-                        <div class="text-emerald-400 font-bold pt-1">螢幕光強公式: $I(y) = I_0 \cdot \left(\frac{\sin\beta}{\beta}\right)^2 \cdot \cos^2(\alpha)$</div>
+                        <div>單縫繞射因子: β = πa sinθ/λ ≈ πay/(λL)</div>
+                        <div>雙縫干涉因子: α = πd sinθ/λ ≈ πdy/(λL)</div>
+                        <div class="text-emerald-400 font-bold pt-1">螢幕光強公式: I(y) = I₀ × [sin(β)/β]² × cos²(α)</div>
                     </div>
                     <p class="text-slate-400 text-xs">
-                        <strong>量子波粒二象性證明：</strong>當我們把光強調極低，讓光子「一個一個」發射時，單個光子落點看似隨機，但經過大量蒙地卡羅樣本統計累積後，最終螢幕上依然繪製出相同的干涉條紋！這證明了波函數（概率波）的性質。
+                        <strong>量子波粒二象性證明：</strong>弱光下，光子以一次一個的方式被偵測；單次落點是離散的，累積許多次後，落點分布會呈現干涉條紋。這裡的路徑動畫只是示意，落點依干涉機率取樣，不代表光子沿著經典軌跡前進。
                     </p>
                 </div>
 
@@ -328,17 +328,17 @@
                         <span>2. 光的粒子性：光電效應 (Particle Nature)</span>
                     </h3>
                     <p class="text-slate-400 leading-relaxed text-xs">
-                        1905年愛因斯坦提出光量子假設，完美解釋了光電效應。光並非連續波動，而是由一顆顆攜帶能量量子 $E = hf$ 的光子組成。
+                        1905年愛因斯坦提出光量子假設，完美解釋了光電效應。光並非連續波動，而是由一顆顆攜帶能量量子 E = hf 的光子組成。
                     </p>
                     <div class="bg-slate-900 p-3 rounded text-xs font-mono text-amber-300 space-y-1">
-                        <div>光子能量: $E = hf = \frac{hc}{\lambda}$ ($hc \approx 1240 \text{ eV}\cdot\text{nm}$)</div>
-                        <div>光電方程式: $K_{max} = hf - \Phi$</div>
-                        <div class="text-emerald-400 font-bold pt-1">截止電壓方程: $e V_{stop} = K_{max} = hf - \Phi$</div>
+                        <div>光子能量: E = hf = hc/λ（hc ≈ 1240 eV·nm）</div>
+                        <div>光電方程式: Kₘₐₓ = hf − Φ</div>
+                        <div class="text-emerald-400 font-bold pt-1">截止電壓方程: e|Vₛₜₒₚ| = Kₘₐₓ = hf − Φ</div>
                     </div>
                     <ul class="list-disc list-inside text-slate-400 text-xs space-y-1">
-                        <li><strong>紅限波長限制：</strong>若 $E < \Phi$ (即 $\lambda > \lambda_0$)，無論光照多強，也完全無法釋放電子！</li>
-                        <li><strong>光強與光電流：</strong>光強度 $I$ 只決定單位時間發射的光子數量，決定光電流的上限；光的頻率 $f$ 決定電子的最大初動能 $K_{max}$。</li>
-                        <li><strong>反向截止：</strong>當外加反向電壓 $V < 0$ 且 $e|V| \ge K_{max}$ 時，電子被靜電力打回陰極，光電流降為零。</li>
+                        <li><strong>紅限波長限制：</strong>若 E < Φ（即 λ > λ₀），無論光照多強，也完全無法釋放電子！</li>
+                        <li><strong>光強與光電流：</strong>光強度 I 主要影響光電流；頻率 f 決定光子能量，進而影響電子的最大初動能 Kₘₐₓ。</li>
+                        <li><strong>反向截止：</strong>當外加反向電壓 V < 0 且 e|V| ≥ Kₘₐₓ 時，電子被靜電力打回陰極，光電流降為零。</li>
                     </ul>
                 </div>
             </div>
@@ -463,7 +463,7 @@
                 controlsParticle.classList.remove('hidden');
                 controlsWave.classList.add('hidden');
                 chartTitle.innerHTML = `<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg><span>光電流與電壓關係曲線 (I - V 特性圖)</span>`;
-                chartSub.innerText = "即時光電流數據統計 (Photocurrent Curves)";
+                chartSub.innerText = "理想化光電流曲線（Photocurrent I–V）";
                 updateParticleChart();
             }
         }
@@ -656,6 +656,8 @@
 
             const colorRGB = wavelengthToRGB(waveState.lambda);
 
+            chartInstance.options.scales.x.title = { display: true, text: '螢幕位置 y（mm）', color: '#94a3b8' };
+            chartInstance.options.scales.y.title = { display: true, text: '相對光強 I/I₀', color: '#94a3b8' };
             chartInstance.data.labels = labels;
             chartInstance.data.datasets[0].label = '干涉光強分佈 I(y)';
             chartInstance.data.datasets[0].data = data;
@@ -695,6 +697,8 @@
                 }
             }
 
+            chartInstance.options.scales.x.title = { display: true, text: '外加電壓 V（V）', color: '#94a3b8' };
+            chartInstance.options.scales.y.title = { display: true, text: '相對光電流（依光強縮放）', color: '#94a3b8' };
             chartInstance.data.labels = vPoints;
             chartInstance.data.datasets[0].label = '光電流 I vs 電壓 V';
             chartInstance.data.datasets[0].data = iPoints;
@@ -1019,7 +1023,7 @@
             } else {
                 ctx.fillStyle = '#10b981';
                 ctx.font = 'bold 13px sans-serif';
-                ctx.fillText(`光電子持續發射中 (K_max = ${kMax.toFixed(2)} eV)`, cathodeX + 20, topY + 30);
+                ctx.fillText(`光電子持續發射中 (Kₘₐₓ = ${kMax.toFixed(2)} eV)`, cathodeX + 20, topY + 30);
             }
         }
     </script>
