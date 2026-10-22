@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光的二象性 物理互動模擬器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        physics: {
+                            base: '#0f172a',
+                            panel: '#1e293b',
+                            border: '#334155',
+                            accent: '#38bdf8',
+                            glow: '#0284c7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
+        }
+        input[type="range"] {
+            accent-color: #38bdf8;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
+
+    <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-wrap justify-between items-center shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-sky-500/10 rounded-lg border border-sky-500/30">
+                <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-300">
+                    光的二象性 物理互動模擬器
+                </h1>
+                <p class="text-xs text-slate-400">Dual Nature of Light Physics Laboratory</p>
+            </div>
+        </div>
+
+        <!-- Mode Switcher Tabs -->
+        <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 mt-2 sm:mt-0">
+            <button id="tab-wave" onclick="switchMode('wave')" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-sky-600 text-white shadow-md">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12c2.5 0 2.5-4 5-4s2.5 4 5 4 2.5-4 5-4 2.5 4 5 4m-15 4c2.5 0 2.5-4 5-4s2.5 4 5 4 2.5-4 5-4 2.5 4 5 4"/></svg>
+                <span>波動性：雙縫干涉與繞射</span>
+            </button>
+            <button id="tab-particle" onclick="switchMode('particle')" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/></svg>
+                <span>粒子性：光電效應實驗</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 max-w-[1800px] w-full mx-auto">
+
+        <!-- Left Column: Controls & Parameters (4 cols) -->
+        <section class="lg:col-span-4 space-y-4 flex flex-col">
+            
+            <!-- WAVE MODE CONTROLS -->
+            <div id="controls-wave" class="bg-slate-900 rounded-xl p-5 border border-slate-800 shadow-xl space-y-5 flex-1">
+                <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
+                    <h2 class="font-semibold text-sky-400 flex items-center space-x-2">
+                        <span>雙縫干涉參數設定</span>
+                    </h2>
+                    <span class="text-xs bg-sky-950 text-sky-300 border border-sky-800 px-2 py-0.5 rounded-full">楊氏雙縫實驗</span>
+                </div>
+
+                <!-- Wavelength Slider -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">入射光波長 ($\lambda$)</label>
+                        <span id="wave-lambda-val" class="text-sky-400 font-mono">550 nm</span>
+                    </div>
+                    <input type="range" id="wave-lambda" min="380" max="750" value="550" step="1" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateWaveParams()">
+                    <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                        <span>380nm (紫)</span>
+                        <span>550nm (綠)</span>
+                        <span>750nm (紅)</span>
+                    </div>
+                </div>
+
+                <!-- Slit Distance d -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">雙縫間距 ($d$)</label>
+                        <span id="wave-d-val" class="text-sky-400 font-mono">150 $\mu m$</span>
+                    </div>
+                    <input type="range" id="wave-d" min="50" max="400" value="150" step="5" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateWaveParams()">
+                </div>
+
+                <!-- Slit Width a -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">單縫寬度 ($a$ - 決定繞射包絡線)</label>
+                        <span id="wave-a-val" class="text-sky-400 font-mono">30 $\mu m$</span>
+                    </div>
+                    <input type="range" id="wave-a" min="10" max="80" value="30" step="2" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateWaveParams()">
+                </div>
+
+                <!-- Screen Distance L -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">狹縫至屏距離 ($L$)</label>
+                        <span id="wave-L-val" class="text-sky-400 font-mono">1.20 m</span>
+                    </div>
+                    <input type="range" id="wave-L" min="0.5" max="3.0" value="1.2" step="0.05" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateWaveParams()">
+                </div>
+
+                <!-- Toggle Continuous / Photon Accumulation Mode -->
+                <div class="pt-2 border-t border-slate-800 space-y-3">
+                    <label class="text-sm font-medium text-slate-300">模擬顯示模式：</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-mode-wavefront" onclick="setWaveViewMode('wavefront')" 
+                                class="px-3 py-2 text-xs rounded-lg border border-sky-500 bg-sky-950 text-sky-200 font-medium transition">
+                            連續波動 (波前干涉)
+                        </button>
+                        <button id="btn-mode-photon" onclick="setWaveViewMode('photon')" 
+                                class="px-3 py-2 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-medium hover:border-slate-600 transition">
+                            量子光子累積 (蒙地卡羅)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Photon Controls (Visible only in photon mode) -->
+                <div id="photon-controls" class="hidden space-y-3 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-slate-400">累積光子數: <strong id="photon-count" class="text-sky-400 font-mono">0</strong></span>
+                        <button onclick="resetPhotonAccumulation()" class="px-2 py-1 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700">重新累積</button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label class="text-xs text-slate-400">發射速率:</label>
+                        <input type="range" id="photon-rate" min="5" max="200" value="50" class="flex-1 h-1.5 bg-slate-800 rounded">
+                    </div>
+                </div>
+            </div>
+
+            <!-- PARTICLE MODE CONTROLS -->
+            <div id="controls-particle" class="hidden bg-slate-900 rounded-xl p-5 border border-slate-800 shadow-xl space-y-5 flex-1">
+                <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
+                    <h2 class="font-semibold text-amber-400 flex items-center space-x-2">
+                        <span>光電效應參數設定</span>
+                    </h2>
+                    <span class="text-xs bg-amber-950 text-amber-300 border border-amber-800 px-2 py-0.5 rounded-full">愛因斯坦光電方程</span>
+                </div>
+
+                <!-- Target Metal Selection -->
+                <div class="space-y-2">
+                    <label class="text-sm text-slate-300 font-medium">陰極金屬靶材 (功函數 $\Phi$)</label>
+                    <select id="metal-select" onchange="updateMetalWorkFunction()" class="w-full bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                        <option value="2.29">鉀 Potassium (Φ = 2.29 eV, 截止波長 λ₀ = 541 nm)</option>
+                        <option value="2.28">鈉 Sodium (Φ = 2.28 eV, 截止波長 λ₀ = 543 nm)</option>
+                        <option value="2.14">銫 Cesium (Φ = 2.14 eV, 截止波長 λ₀ = 579 nm)</option>
+                        <option value="4.30">鋅 Zinc (Φ = 4.30 eV, 截止波長 λ₀ = 288 nm)</option>
+                        <option value="4.70">銅 Copper (Φ = 4.70 eV, 截止波長 λ₀ = 264 nm)</option>
+                        <option value="custom">自訂功函數...</option>
+                    </select>
+                </div>
+
+                <!-- Custom Work Function Slider -->
+                <div id="custom-phi-container" class="space-y-2 hidden">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300">自訂功函數 $\Phi$ (eV)</label>
+                        <span id="custom-phi-val" class="text-amber-400 font-mono">2.50 eV</span>
+                    </div>
+                    <input type="range" id="custom-phi" min="1.0" max="6.0" value="2.5" step="0.05" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
+                </div>
+
+                <!-- Incident Light Wavelength / Frequency -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">入射光波長 ($\lambda$) / 頻率 ($f$)</label>
+                        <span id="particle-lambda-val" class="text-amber-400 font-mono">350 nm (0.86 PHz)</span>
+                    </div>
+                    <input type="range" id="particle-lambda" min="150" max="750" value="350" step="1" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
+                    <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                        <span>150nm (遠紫外線)</span>
+                        <span>400nm (紫)</span>
+                        <span>750nm (紅)</span>
+                    </div>
+                </div>
+
+                <!-- Light Intensity -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">光照強度 $I$ (光子通量/秒)</label>
+                        <span id="particle-intensity-val" class="text-amber-400 font-mono">50 %</span>
+                    </div>
+                    <input type="range" id="particle-intensity" min="10" max="100" value="50" step="5" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
+                </div>
+
+                <!-- Applied External Voltage -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <label class="text-slate-300 font-medium">外加電壓 $V$ (正/反向減速電壓)</label>
+                        <span id="particle-voltage-val" class="text-amber-400 font-mono">0.00 V</span>
+                    </div>
+                    <input type="range" id="particle-voltage" min="-4.0" max="4.0" value="0.0" step="0.05" 
+                           class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
+                    <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                        <span>-4.0V (強反向截止)</span>
+                        <span>0V</span>
+                        <span>+4.0V (正向加速)</span>
+                    </div>
+                </div>
+
+                <!-- Particle Real-time Output Readout -->
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs space-y-1.5 font-mono">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">入射光子能量 $E = hf$:</span>
+                        <span id="readout-e-photon" class="text-amber-300 font-bold">3.54 eV</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">金屬功函數 $\Phi$:</span>
+                        <span id="readout-phi" class="text-slate-200">2.29 eV</span>
+                    </div>
+                    <div class="flex justify-between border-t border-slate-800 pt-1">
+                        <span class="text-slate-400">最大電子初動能 $K_{max}$:</span>
+                        <span id="readout-kmax" class="text-emerald-400 font-bold">1.25 eV</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">理論截止電壓 $V_{stop}$:</span>
+                        <span id="readout-vstop" class="text-rose-400 font-bold">-1.25 V</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Canvas Physics Stage & Charts (8 cols) -->
+        <section class="lg:col-span-8 flex flex-col space-y-4">
+            
+            <!-- Physics Visual Simulation Stage Container -->
+            <div class="bg-slate-900 rounded-xl border border-slate-800 shadow-xl overflow-hidden relative flex flex-col">
+                <div class="bg-slate-950 px-4 py-2 border-b border-slate-800 flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="canvas-status-title" class="text-xs font-mono text-slate-300">即時物理模擬算繪引擎 (Physics Real-time Canvas Engine)</span>
+                    </div>
+                    <div class="text-[11px] font-mono text-slate-500">60 FPS</div>
+                </div>
+
+                <div class="relative w-full aspect-[16/9] sm:aspect-[21/10] bg-black">
+                    <canvas id="physics-canvas" class="w-full h-full block cursor-crosshair"></canvas>
+                </div>
+            </div>
+
+            <!-- Real-time Mathematical Curve / Data Plotting Section -->
+            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 shadow-xl space-y-2 flex-1">
+                <div class="flex justify-between items-center">
+                    <h3 id="chart-title" class="text-sm font-semibold text-slate-300 flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                        <span>干涉光強分布數據曲線 $I(y)$</span>
+                    </h3>
+                    <span id="chart-subtitle" class="text-xs font-mono text-slate-500">理論與數值解析 (Analytic Distribution)</span>
+                </div>
+                <div class="relative h-44 w-full">
+                    <canvas id="analytics-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Educational Theory Explanation Section -->
+    <footer class="bg-slate-900 border-t border-slate-800 p-6 mt-4">
+        <div class="max-w-[1800px] mx-auto space-y-6">
+            <h2 class="text-lg font-bold text-slate-200 border-b border-slate-800 pb-2">
+                物理原理與數學方程深度解析 (Physics Fundamentals & Governing Laws)
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-300">
+                <!-- Wave Duality Concept -->
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <h3 class="text-sky-400 font-semibold flex items-center space-x-2">
+                        <span>1. 光的波動性：雙縫干涉與繞射 (Wave Nature)</span>
+                    </h3>
+                    <p class="text-slate-400 leading-relaxed text-xs">
+                        1801年托馬斯·楊（Thomas Young）進行了著名的雙縫實驗。當單色光通過兩條相距為 $d$ 的平行狹縫時，兩條縫作為相干波源發出球面波。
+                        當到達距離為 $L$ 的螢幕時，光波發生叠加干涉。
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded text-xs font-mono text-sky-300 space-y-1">
+                        <div>單縫繞射因子: $\beta = \frac{\pi a}{\lambda} \sin\theta \approx \frac{\pi a y}{\lambda L}$</div>
+                        <div>雙縫干涉因子: $\alpha = \frac{\pi d}{\lambda} \sin\theta \approx \frac{\pi d y}{\lambda L}$</div>
+                        <div class="text-emerald-400 font-bold pt-1">螢幕光強公式: $I(y) = I_0 \cdot \left(\frac{\sin\beta}{\beta}\right)^2 \cdot \cos^2(\alpha)$</div>
+                    </div>
+                    <p class="text-slate-400 text-xs">
+                        <strong>量子波粒二象性證明：</strong>當我們把光強調極低，讓光子「一個一個」發射時，單個光子落點看似隨機，但經過大量蒙地卡羅樣本統計累積後，最終螢幕上依然繪製出相同的干涉條紋！這證明了波函數（概率波）的性質。
+                    </p>
+                </div>
+
+                <!-- Particle Duality Concept -->
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <h3 class="text-amber-400 font-semibold flex items-center space-x-2">
+                        <span>2. 光的粒子性：光電效應 (Particle Nature)</span>
+                    </h3>
+                    <p class="text-slate-400 leading-relaxed text-xs">
+                        1905年愛因斯坦提出光量子假設，完美解釋了光電效應。光並非連續波動，而是由一顆顆攜帶能量量子 $E = hf$ 的光子組成。
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded text-xs font-mono text-amber-300 space-y-1">
+                        <div>光子能量: $E = hf = \frac{hc}{\lambda}$ ($hc \approx 1240 \text{ eV}\cdot\text{nm}$)</div>
+                        <div>光電方程式: $K_{max} = hf - \Phi$</div>
+                        <div class="text-emerald-400 font-bold pt-1">截止電壓方程: $e V_{stop} = K_{max} = hf - \Phi$</div>
+                    </div>
+                    <ul class="list-disc list-inside text-slate-400 text-xs space-y-1">
+                        <li><strong>紅限波長限制：</strong>若 $E < \Phi$ (即 $\lambda > \lambda_0$)，無論光照多強，也完全無法釋放電子！</li>
+                        <li><strong>光強與光電流：</strong>光強度 $I$ 只決定單位時間發射的光子數量，決定光電流的上限；光的頻率 $f$ 決定電子的最大初動能 $K_{max}$。</li>
+                        <li><strong>反向截止：</strong>當外加反向電壓 $V < 0$ 且 $e|V| \ge K_{max}$ 時，電子被靜電力打回陰極，光電流降為零。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global Simulation State
+        let currentMode = 'wave'; // 'wave' or 'particle'
+        let waveViewMode = 'wavefront'; // 'wavefront' or 'photon'
+
+        // Canvas & Contexts
+        let canvas = document.getElementById('physics-canvas');
+        let ctx = canvas.getContext('2d');
+        let chartInstance = null;
+
+        // Animation Request ID
+        let animId = null;
+
+        // Wave Mode State Variables
+        let waveState = {
+            lambda: 550, // nm
+            d: 150,      // um
+            a: 30,       // um
+            L: 1.2,      // m
+            phase: 0,
+            photons: [], // Photons on screen accumulated: array of y-coords
+            flyingPhotons: [], // Photons traveling from slit to screen
+            totalPhotonsEmitted: 0
+        };
+
+        // Particle Mode State Variables
+        let particleState = {
+            lambda: 350,   // nm
+            phi: 2.29,     // eV (Potassium default)
+            intensity: 50, // %
+            voltage: 0.0,  // Volts
+            photons: [],   // Active moving photons
+            electrons: [], // Active moving electrons
+            photocurrentHistory: [], // Real-time photocurrent samples
+            arrivedElectronsCount: 0,
+            totalEmittedElectrons: 0,
+            timeStepCounter: 0
+        };
+
+        // Physical Constants (Normalized for Canvas simulation)
+        const HC = 1240.0; // eV * nm
+
+        // Initialize Application on Window Load
+        window.onload = function() {
+            setupCanvasSize();
+            window.addEventListener('resize', setupCanvasSize);
+            initChart();
+            updateWaveParams();
+            updateParticleParams();
+            startLoop();
+        };
+
+        function setupCanvasSize() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth * window.devicePixelRatio || 800;
+            canvas.height = container.clientHeight * window.devicePixelRatio || 450;
+        }
+
+        // Color Converter from Wavelength (nm) to RGB
+        function wavelengthToRGB(wavelength) {
+            let R, G, B;
+            if (wavelength >= 380 && wavelength < 440) {
+                R = -(wavelength - 440) / (440 - 380); G = 0.0; B = 1.0;
+            } else if (wavelength >= 440 && wavelength < 490) {
+                R = 0.0; G = (wavelength - 440) / (490 - 440); B = 1.0;
+            } else if (wavelength >= 490 && wavelength < 510) {
+                R = 0.0; G = 1.0; B = -(wavelength - 510) / (510 - 490);
+            } else if (wavelength >= 510 && wavelength < 580) {
+                R = (wavelength - 510) / (580 - 510); G = 1.0; B = 0.0;
+            } else if (wavelength >= 580 && wavelength < 645) {
+                R = 1.0; G = -(wavelength - 645) / (645 - 580); B = 0.0;
+            } else if (wavelength >= 645 && wavelength <= 780) {
+                R = 1.0; G = 0.0; B = 0.0;
+            } else {
+                // UV or IR default fallback visualization
+                if (wavelength < 380) { R = 0.6; G = 0.1; B = 0.9; } // Ultraviolet
+                else { R = 0.5; G = 0.0; B = 0.0; } // Infrared
+            }
+
+            // Intensity factor near human eye limits
+            let factor = 1.0;
+            if (wavelength >= 380 && wavelength < 420) {
+                factor = 0.3 + 0.7 * (wavelength - 380) / (420 - 380);
+            } else if (wavelength >= 700 && wavelength <= 780) {
+                factor = 0.3 + 0.7 * (780 - wavelength) / (780 - 700);
+            }
+
+            R = Math.floor(255 * Math.pow(R * factor, 0.8));
+            G = Math.floor(255 * Math.pow(G * factor, 0.8));
+            B = Math.floor(255 * Math.pow(B * factor, 0.8));
+
+            return { r: Math.max(20, R), g: Math.max(20, G), b: Math.max(20, B), hex: `rgb(${R},${G},${B})` };
+        }
+
+        // Mode Switching Handler
+        function switchMode(mode) {
+            currentMode = mode;
+            const tabWave = document.getElementById('tab-wave');
+            const tabParticle = document.getElementById('tab-particle');
+            const controlsWave = document.getElementById('controls-wave');
+            const controlsParticle = document.getElementById('controls-particle');
+            const chartTitle = document.getElementById('chart-title');
+            const chartSub = document.getElementById('chart-subtitle');
+
+            if (mode === 'wave') {
+                tabWave.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-sky-600 text-white shadow-md";
+                tabParticle.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
+                controlsWave.classList.remove('hidden');
+                controlsParticle.classList.add('hidden');
+                chartTitle.innerHTML = `<svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg><span>干涉光強分布數據曲線 I(y)</span>`;
+                chartSub.innerText = "理論與數值解析 (Analytic Wave Distribution)";
+                updateWaveChart();
+            } else {
+                tabParticle.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-amber-600 text-white shadow-md";
+                tabWave.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
+                controlsParticle.classList.remove('hidden');
+                controlsWave.classList.add('hidden');
+                chartTitle.innerHTML = `<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg><span>光電流與電壓關係曲線 (I - V 特性圖)</span>`;
+                chartSub.innerText = "即時光電流數據統計 (Photocurrent Curves)";
+                updateParticleChart();
+            }
+        }
+
+        // WAVE MODE LOGIC & PHYSICS CALCULATIONS
+        function updateWaveParams() {
+            waveState.lambda = parseFloat(document.getElementById('wave-lambda').value);
+            waveState.d = parseFloat(document.getElementById('wave-d').value);
+            waveState.a = parseFloat(document.getElementById('wave-a').value);
+            waveState.L = parseFloat(document.getElementById('wave-L').value);
+
+            document.getElementById('wave-lambda-val').innerText = `${waveState.lambda} nm`;
+            document.getElementById('wave-d-val').innerText = `${waveState.d} μm`;
+            document.getElementById('wave-a-val').innerText = `${waveState.a} μm`;
+            document.getElementById('wave-L-val').innerText = `${waveState.L.toFixed(2)} m`;
+
+            if (currentMode === 'wave') {
+                updateWaveChart();
+            }
+        }
+
+        function setWaveViewMode(mode) {
+            waveViewMode = mode;
+            const btnWave = document.getElementById('btn-mode-wavefront');
+            const btnPhoton = document.getElementById('btn-mode-photon');
+            const photonCtrl = document.getElementById('photon-controls');
+
+            if (mode === 'wavefront') {
+                btnWave.className = "px-3 py-2 text-xs rounded-lg border border-sky-500 bg-sky-950 text-sky-200 font-medium transition";
+                btnPhoton.className = "px-3 py-2 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-medium hover:border-slate-600 transition";
+                photonCtrl.classList.add('hidden');
+            } else {
+                btnPhoton.className = "px-3 py-2 text-xs rounded-lg border border-sky-500 bg-sky-950 text-sky-200 font-medium transition";
+                btnWave.className = "px-3 py-2 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-medium hover:border-slate-600 transition";
+                photonCtrl.classList.remove('hidden');
+            }
+        }
+
+        function resetPhotonAccumulation() {
+            waveState.photons = [];
+            waveState.flyingPhotons = [];
+            waveState.totalPhotonsEmitted = 0;
+            document.getElementById('photon-count').innerText = "0";
+            if (currentMode === 'wave') {
+                updateWaveChart();
+            }
+        }
+
+        // Double Slit Intensity Function I(y) calculation
+        function calculateWaveIntensity(yScreen, maxScreenY) {
+            // yScreen is relative screen position in meters
+            // theta angle: sin(theta) ~ y / L
+            const sinTheta = yScreen / waveState.L;
+            const lambdaM = waveState.lambda * 1e-9;
+            const dM = waveState.d * 1e-6;
+            const aM = waveState.a * 1e-6;
+
+            // Beta (Single slit diffraction)
+            const beta = (Math.PI * aM * sinTheta) / lambdaM;
+            // Alpha (Double slit interference)
+            const alpha = (Math.PI * dM * sinTheta) / lambdaM;
+
+            // Diffraction factor
+            let diff = 1.0;
+            if (Math.abs(beta) > 1e-7) {
+                diff = Math.sin(beta) / beta;
+            }
+
+            // Interference factor
+            const interf = Math.cos(alpha);
+
+            // Total intensity I = I_0 * (sin(beta)/beta)^2 * cos^2(alpha)
+            return (diff * diff) * (interf * interf);
+        }
+
+        // Monte Carlo Rejection Sampling for Photons
+        function samplePhotonScreenY(maxY) {
+            // Sampling Y position from -maxY to +maxY based on probability density function P(y) = I(y)
+            let attempts = 0;
+            while (attempts < 100) {
+                let testY = (Math.random() * 2 - 1) * maxY;
+                let prob = calculateWaveIntensity(testY, maxY);
+                if (Math.random() <= prob) {
+                    return testY;
+                }
+                attempts++;
+            }
+            return 0; // Fallback center
+        }
+
+        // PARTICLE MODE LOGIC & PHYSICS CALCULATIONS
+        function updateMetalWorkFunction() {
+            const select = document.getElementById('metal-select');
+            const customContainer = document.getElementById('custom-phi-container');
+
+            if (select.value === 'custom') {
+                customContainer.classList.remove('hidden');
+                particleState.phi = parseFloat(document.getElementById('custom-phi').value);
+            } else {
+                customContainer.classList.add('hidden');
+                particleState.phi = parseFloat(select.value);
+            }
+            updateParticleParams();
+        }
+
+        function updateParticleParams() {
+            if (document.getElementById('metal-select').value === 'custom') {
+                particleState.phi = parseFloat(document.getElementById('custom-phi').value);
+                document.getElementById('custom-phi-val').innerText = `${particleState.phi.toFixed(2)} eV`;
+            }
+
+            particleState.lambda = parseFloat(document.getElementById('particle-lambda').value);
+            particleState.intensity = parseFloat(document.getElementById('particle-intensity').value);
+            particleState.voltage = parseFloat(document.getElementById('particle-voltage').value);
+
+            const freqPHz = (3e8 / (particleState.lambda * 1e-9) / 1e15).toFixed(2);
+            document.getElementById('particle-lambda-val').innerText = `${particleState.lambda} nm (${freqPHz} PHz)`;
+            document.getElementById('particle-intensity-val').innerText = `${particleState.intensity} %`;
+            document.getElementById('particle-voltage-val').innerText = `${particleState.voltage.toFixed(2)} V`;
+
+            // Physics calculation: E = hc / lambda (eV)
+            const ePhoton = HC / particleState.lambda;
+            const kMax = Math.max(0, ePhoton - particleState.phi);
+            const vStop = -kMax;
+
+            document.getElementById('readout-e-photon').innerText = `${ePhoton.toFixed(2)} eV`;
+            document.getElementById('readout-phi').innerText = `${particleState.phi.toFixed(2)} eV`;
+            document.getElementById('readout-kmax').innerText = `${kMax.toFixed(2)} eV`;
+            document.getElementById('readout-vstop').innerText = `${vStop.toFixed(2)} V`;
+
+            if (currentMode === 'particle') {
+                updateParticleChart();
+            }
+        }
+
+        // CHART MANAGEMENT (CHART.JS)
+        function initChart() {
+            const ctxChart = document.getElementById('analytics-chart').getContext('2d');
+            chartInstance = new Chart(ctxChart, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '相對強度 I',
+                        data: [],
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                        borderWidth: 2,
+                        fill: true,
+                        pointRadius: 0,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: {
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1.05,
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function updateWaveChart() {
+            if (!chartInstance) return;
+            const points = 150;
+            const labels = [];
+            const data = [];
+            const maxScreenY = 0.005; // 5 mm span on screen
+
+            for (let i = 0; i <= points; i++) {
+                const yMeters = ((i / points) * 2 - 1) * maxScreenY;
+                const intensity = calculateWaveIntensity(yMeters, maxScreenY);
+                labels.push((yMeters * 1000).toFixed(1)); // in mm
+                data.push(intensity);
+            }
+
+            const colorRGB = wavelengthToRGB(waveState.lambda);
+
+            chartInstance.data.labels = labels;
+            chartInstance.data.datasets[0].label = '干涉光強分佈 I(y)';
+            chartInstance.data.datasets[0].data = data;
+            chartInstance.data.datasets[0].borderColor = colorRGB.hex;
+            chartInstance.data.datasets[0].backgroundColor = `rgba(${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b}, 0.2)`;
+            chartInstance.options.scales.y.max = 1.05;
+            chartInstance.update();
+        }
+
+        function updateParticleChart() {
+            if (!chartInstance) return;
+
+            // Build theoretical I-V Curve for photoelectric effect
+            const ePhoton = HC / particleState.lambda;
+            const kMax = Math.max(0, ePhoton - particleState.phi);
+            const vStop = -kMax;
+
+            const vPoints = [];
+            const iPoints = [];
+
+            const isEmissionAllowed = ePhoton >= particleState.phi;
+            const maxCurrentScale = particleState.intensity / 100;
+
+            for (let v = -4.0; v <= 4.0; v += 0.1) {
+                vPoints.push(v.toFixed(1));
+                if (!isEmissionAllowed) {
+                    iPoints.push(0);
+                } else {
+                    if (v < vStop) {
+                        iPoints.push(0);
+                    } else {
+                        // Smooth transition from stopping voltage to saturation current
+                        let factor = (v - vStop) / 0.8;
+                        if (factor > 1.0) factor = 1.0;
+                        iPoints.push(factor * maxCurrentScale);
+                    }
+                }
+            }
+
+            chartInstance.data.labels = vPoints;
+            chartInstance.data.datasets[0].label = '光電流 I vs 電壓 V';
+            chartInstance.data.datasets[0].data = iPoints;
+            chartInstance.data.datasets[0].borderColor = '#f59e0b';
+            chartInstance.data.datasets[0].backgroundColor = 'rgba(245, 158, 11, 0.15)';
+            chartInstance.options.scales.y.max = 1.1;
+            chartInstance.update();
+        }
+
+        // MAIN ANIMATION LOOP & PHYSICS RENDERER
+        function startLoop() {
+            function loop() {
+                render();
+                animId = requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        function render() {
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // Clear Background
+            ctx.fillStyle = '#050b14';
+            ctx.fillRect(0, 0, w, h);
+
+            if (currentMode === 'wave') {
+                renderWaveSimulation(w, h);
+            } else {
+                renderParticleSimulation(w, h);
+            }
+        }
+
+        // RENDER WAVE MODE (Double Slit)
+        function renderWaveSimulation(w, h) {
+            const color = wavelengthToRGB(waveState.lambda);
+            
+            // Screen geometry locations
+            const sourceX = w * 0.1;
+            const slitX = w * 0.35;
+            const screenX = w * 0.82;
+            const centerY = h * 0.5;
+
+            // Draw Laser Light Source Beam
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(10, centerY - 25, sourceX - 10, 50);
+            ctx.strokeStyle = '#475569';
+            ctx.strokeRect(10, centerY - 25, sourceX - 10, 50);
+
+            // Laser Emission Beam to Slit Plate
+            ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
+            ctx.fillRect(sourceX, centerY - 15, slitX - sourceX, 30);
+
+            // Slit Barrier Wall
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(slitX, 20, 12, h - 40);
+
+            // Double Slits gaps
+            const slitGapVisual = Math.min(60, Math.max(12, waveState.d / 4));
+            const slit1Y = centerY - slitGapVisual / 2;
+            const slit2Y = centerY + slitGapVisual / 2;
+            const slitWidthVisual = Math.max(2, waveState.a / 10);
+
+            ctx.clearRect(slitX - 2, slit1Y - slitWidthVisual / 2, 16, slitWidthVisual);
+            ctx.clearRect(slitX - 2, slit2Y - slitWidthVisual / 2, 16, slitWidthVisual);
+
+            // MODE 1A: Continuous Wavefront Ripple Visualization
+            if (waveViewMode === 'wavefront') {
+                waveState.phase += 0.15;
+                const wavelengthPixels = waveState.lambda / 15;
+                const maxRadius = screenX - slitX;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(slitX, 0, screenX - slitX, h);
+                ctx.clip();
+
+                // Draw expanding spherical wave ripples from both slits
+                for (let r = (waveState.phase * 3) % wavelengthPixels; r < maxRadius; r += wavelengthPixels) {
+                    const alpha = Math.max(0.05, 1 - r / maxRadius);
+                    ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.5})`;
+                    ctx.lineWidth = 2;
+
+                    // Slit 1 wavefront
+                    ctx.beginPath();
+                    ctx.arc(slitX, slit1Y, r, -Math.PI / 2, Math.PI / 2);
+                    ctx.stroke();
+
+                    // Slit 2 wavefront
+                    ctx.beginPath();
+                    ctx.arc(slitX, slit2Y, r, -Math.PI / 2, Math.PI / 2);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            } 
+            // MODE 1B: Discrete Quantum Photon Particle Accumulation
+            else {
+                const fireRate = parseInt(document.getElementById('photon-rate').value);
+                
+                // Spawn new photons in transit
+                for (let i = 0; i < Math.ceil(fireRate / 10); i++) {
+                    const targetScreenY = samplePhotonScreenY(0.005);
+                    // Map screen Y (-0.005m to +0.005m) to canvas pixels
+                    const targetPixelY = centerY + (targetScreenY / 0.005) * (h * 0.4);
+                    const fromSlit1 = Math.random() < 0.5;
+
+                    waveState.flyingPhotons.push({
+                        x: slitX,
+                        y: fromSlit1 ? slit1Y : slit2Y,
+                        targetY: targetPixelY,
+                        progress: 0,
+                        speed: 0.03 + Math.random() * 0.01
+                    });
+                }
+
+                // Update flying photons
+                ctx.fillStyle = color.hex;
+                for (let i = waveState.flyingPhotons.length - 1; i >= 0; i--) {
+                    let p = waveState.flyingPhotons[i];
+                    p.progress += p.speed;
+
+                    let curX = slitX + (screenX - slitX) * p.progress;
+                    let curY = p.y + (p.targetY - p.y) * p.progress;
+
+                    ctx.beginPath();
+                    ctx.arc(curX, curY, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    if (p.progress >= 1.0) {
+                        // Arrived at detector screen
+                        waveState.photons.push({ y: p.targetY });
+                        waveState.totalPhotonsEmitted++;
+                        waveState.flyingPhotons.splice(i, 1);
+                    }
+                }
+
+                document.getElementById('photon-count').innerText = waveState.totalPhotonsEmitted;
+            }
+
+            // Draw Observation Screen
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(screenX, 20, 25, h - 40);
+            ctx.strokeStyle = '#475569';
+            ctx.strokeRect(screenX, 20, 25, h - 40);
+
+            // Draw Real Intensity Fringe Result on Screen
+            const screenHeight = h - 40;
+            const maxScreenY = 0.005;
+
+            if (waveViewMode === 'wavefront') {
+                for (let py = 20; py < h - 20; py += 2) {
+                    const normY = ((py - centerY) / (h * 0.4)) * maxScreenY;
+                    const intensity = calculateWaveIntensity(normY, maxScreenY);
+
+                    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${intensity})`;
+                    ctx.fillRect(screenX + 1, py, 23, 2);
+                }
+            } else {
+                // Render Accumulated Photons on Screen
+                for (let p of waveState.photons) {
+                    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
+                    ctx.fillRect(screenX + 2, p.y - 1, 21, 2);
+                }
+            }
+
+            // Screen Labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px monospace';
+            ctx.fillText("雙狹縫 (d, a)", slitX - 35, 15);
+            ctx.fillText("干涉屏幕 (Screen)", screenX - 25, 15);
+        }
+
+        // RENDER PARTICLE MODE (Photoelectric Effect Simulation)
+        function renderParticleSimulation(w, h) {
+            const ePhoton = HC / particleState.lambda;
+            const kMax = Math.max(0, ePhoton - particleState.phi);
+            const isEmitting = ePhoton >= particleState.phi;
+            const lightColor = wavelengthToRGB(particleState.lambda);
+
+            const cathodeX = w * 0.25;
+            const anodeX = w * 0.75;
+            const topY = h * 0.2;
+            const bottomY = h * 0.8;
+            const centerY = h * 0.5;
+
+            // Draw Vacuum Glass Tube Vacuum Chamber
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(cathodeX - 30, topY - 30, (anodeX - cathodeX) + 60, (bottomY - topY) + 60, 30);
+            ctx.stroke();
+
+            // Circuit Wiring & Power Supply
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            // Cathode Wire down
+            ctx.moveTo(cathodeX, bottomY);
+            ctx.lineTo(cathodeX, h - 30);
+            ctx.lineTo(w * 0.4, h - 30);
+
+            // Anode Wire down
+            ctx.moveTo(anodeX, bottomY);
+            ctx.lineTo(anodeX, h - 30);
+            ctx.lineTo(w * 0.6, h - 30);
+            ctx.stroke();
+
+            // Battery / Voltage Source Box in Middle Bottom
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(w * 0.4, h - 50, w * 0.2, 40);
+            ctx.strokeRect(w * 0.4, h - 50, w * 0.2, 40);
+
+            ctx.fillStyle = particleState.voltage < 0 ? '#f43f5e' : (particleState.voltage > 0 ? '#10b981' : '#cbd5e1');
+            ctx.font = 'bold 12px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(`V = ${particleState.voltage.toFixed(2)} V`, w * 0.5, h - 26);
+
+            // Cathode Metal Plate (Emitter)
+            ctx.fillStyle = '#64748b';
+            ctx.fillRect(cathodeX - 10, topY, 15, bottomY - topY);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillText("陰極 (Cathode)", cathodeX - 10, topY - 10);
+
+            // Anode Metal Plate (Collector)
+            ctx.fillStyle = '#64748b';
+            ctx.fillRect(anodeX, topY, 15, bottomY - topY);
+            ctx.fillText("陽極 (Anode)", anodeX + 10, topY - 10);
+
+            // Spawn Incident Photons from Light Source
+            const spawnRate = particleState.intensity / 10;
+            if (Math.random() < spawnRate * 0.4) {
+                particleState.photons.push({
+                    x: cathodeX - 120,
+                    y: topY - 20 + Math.random() * 40,
+                    vx: 4.5,
+                    vy: (topY + Math.random() * (bottomY - topY) - (topY - 20)) / (120 / 4.5)
+                });
+            }
+
+            // Update & Render Photons
+            ctx.fillStyle = lightColor.hex;
+            for (let i = particleState.photons.length - 1; i >= 0; i--) {
+                let p = particleState.photons[i];
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Draw Wave-packet Packet Photon
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Hit Cathode Plate
+                if (p.x >= cathodeX - 10) {
+                    // Photoelectric Emission Check
+                    if (isEmitting) {
+                        // Calculate Electron Ejection Speed based on K_max
+                        // Speed ~ sqrt(K_max)
+                        const vBase = Math.sqrt(kMax) * 2.2 + 0.5;
+                        const angle = (Math.random() - 0.5) * Math.PI * 0.6; // Forward ejection cone
+
+                        particleState.electrons.push({
+                            x: cathodeX + 8,
+                            y: p.y,
+                            vx: Math.cos(angle) * vBase,
+                            vy: Math.sin(angle) * vBase
+                        });
+                        particleState.totalEmittedElectrons++;
+                    }
+                    particleState.photons.splice(i, 1);
+                }
+            }
+
+            // Electric Field Force Acceleration: F = e * E = e * (V / d)
+            // Acceleration a ~ Voltage V
+            const accelX = particleState.voltage * 0.08;
+
+            // Update & Render Photoelectrons
+            ctx.fillStyle = '#38bdf8'; // Cyan Electrons
+            for (let i = particleState.electrons.length - 1; i >= 0; i--) {
+                let e = particleState.electrons[i];
+
+                // Kinematic differential equation integration (Euler Verlet)
+                e.vx += accelX;
+                e.x += e.vx;
+                e.y += e.vy;
+
+                // Render Electron Particle with Glow
+                ctx.shadowColor = '#38bdf8';
+                ctx.shadowBlur = 6;
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0; // reset
+
+                // Check Bounds / Reaching Collector Anode
+                if (e.x >= anodeX) {
+                    // Reached Anode -> Dynamic Photocurrent Generated!
+                    particleState.arrivedElectronsCount++;
+                    particleState.electrons.splice(i, 1);
+                } else if (e.x < cathodeX - 5) {
+                    // Turned back by Retarding Stopping Voltage and absorbed by Cathode
+                    particleState.electrons.splice(i, 1);
+                } else if (e.y < topY || e.y > bottomY) {
+                    // Flew out of tube bounds
+                    particleState.electrons.splice(i, 1);
+                }
+            }
+
+            // Real-time Current Calculation Sampling
+            particleState.timeStepCounter++;
+            if (particleState.timeStepCounter % 30 === 0) {
+                // Sample photocurrent based on arrival rate
+                particleState.arrivedElectronsCount = 0;
+            }
+
+            // Display Emission Status Text
+            ctx.textAlign = 'left';
+            if (!isEmitting) {
+                ctx.fillStyle = '#f43f5e';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText("未發生光電效應！ (入射光子能量 E < 功函數 Φ)", cathodeX + 20, topY + 30);
+            } else {
+                ctx.fillStyle = '#10b981';
+                ctx.font = 'bold 13px sans-serif';
+                ctx.fillText(`光電子持續發射中 (K_max = ${kMax.toFixed(2)} eV)`, cathodeX + 20, topY + 30);
+            }
+        }
+    </script>
+</body>
+</html>
