@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>光的二象性 物理互動模擬器</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -367,7 +367,7 @@
         });
         function setupCanvasSize() {
             const ratio = window.devicePixelRatio || 1, width = canvas.clientWidth || 800, height = canvas.clientHeight || 450;
-            canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+            canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); if (chartInstance) drawAnalyticsChart();
         }
         function wavelengthToRGB(w) {
             let r, g, b;
@@ -460,19 +460,51 @@
             if (currentMode === 'particle') updateParticleChart();
         }
         function initChart() {
-            chartInstance = new Chart(document.getElementById('analytics-chart').getContext('2d'), {
-                type: 'line', data: { labels: [], datasets: [{ label: '相對強度', data: [], borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.15)', borderWidth: 2, fill: true, pointRadius: 0, tension: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, animation: false, scales: {
-                    x: { title: { display: true, text: '屏幕位置 y (mm)', color: '#94a3b8' }, grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 9 } },
-                    y: { min: 0, max: 1.05, title: { display: true, text: '相對峰值光強 I/Imax', color: '#94a3b8' }, grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
-                }, plugins: { legend: { display: false } } }
-            });
+            chartInstance = true;
+            drawAnalyticsChart();
+        }
+        let chartModel = { labels: [], data: [], color: '#38bdf8', xTitle: '屏幕位置 y (mm)', yTitle: '相對峰值光強 I/Imax' };
+        function drawAnalyticsChart() {
+            if (!chartInstance) return;
+            const chartCanvas = document.getElementById('analytics-chart');
+            const ratio = window.devicePixelRatio || 1, width = chartCanvas.clientWidth || 600, height = chartCanvas.clientHeight || 176;
+            chartCanvas.width = Math.round(width * ratio); chartCanvas.height = Math.round(height * ratio);
+            const g = chartCanvas.getContext('2d'); g.setTransform(ratio, 0, 0, ratio, 0, 0); g.clearRect(0, 0, width, height);
+            const left = 54, right = 12, top = 8, bottom = 38, plotW = width - left - right, plotH = height - top - bottom;
+            const xs = chartModel.labels.map(Number), minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+            const maxY = 1.05;
+            g.font = '10px sans-serif'; g.strokeStyle = '#263449'; g.fillStyle = '#94a3b8'; g.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const value = maxY * i / 4, y = top + plotH * (1 - value / maxY);
+                g.beginPath(); g.moveTo(left, y); g.lineTo(width - right, y); g.stroke(); g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillText(value.toFixed(2), left - 7, y);
+            }
+            for (let i = 0; i <= 6; i++) {
+                const value = minX + (maxX - minX) * i / 6, x = left + plotW * i / 6;
+                g.beginPath(); g.moveTo(x, top); g.lineTo(x, top + plotH); g.stroke(); g.textAlign = 'center'; g.textBaseline = 'top';
+                g.fillText(chartModel.xTitle.indexOf('mm') >= 0 ? value.toFixed(1) : value.toFixed(1), x, top + plotH + 4);
+            }
+            if (chartModel.data.length) {
+                g.beginPath();
+                for (let i = 0; i < chartModel.data.length; i++) {
+                    const x = left + (xs[i] - minX) / (maxX - minX || 1) * plotW, y = top + (1 - chartModel.data[i] / maxY) * plotH;
+                    if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+                }
+                g.lineTo(width - right, top + plotH); g.lineTo(left, top + plotH); g.closePath(); g.globalAlpha = 0.14; g.fillStyle = chartModel.color; g.fill(); g.globalAlpha = 1;
+                g.beginPath();
+                for (let i = 0; i < chartModel.data.length; i++) {
+                    const x = left + (xs[i] - minX) / (maxX - minX || 1) * plotW, y = top + (1 - chartModel.data[i] / maxY) * plotH;
+                    if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+                }
+                g.strokeStyle = chartModel.color; g.lineWidth = 2; g.stroke();
+            }
+            g.fillStyle = '#94a3b8'; g.font = '10px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'bottom'; g.fillText(chartModel.xTitle, left + plotW / 2, height - 1);
+            g.save(); g.translate(11, top + plotH / 2); g.rotate(-Math.PI / 2); g.textAlign = 'center'; g.textBaseline = 'top'; g.fillText(chartModel.yTitle, 0, 0); g.restore();
         }
         function updateWaveChart() {
             if (!chartInstance) return;
-            chartInstance.data.labels = waveProfile.yValues.map(y => (y * 1000).toFixed(2)); chartInstance.data.datasets[0].label = '相對峰值光強 I/Imax'; chartInstance.data.datasets[0].data = waveProfile.values;
-            const c = wavelengthToRGB(waveState.lambda); chartInstance.data.datasets[0].borderColor = c.hex; chartInstance.data.datasets[0].backgroundColor = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.2)';
-            chartInstance.options.scales.x.title.text = '屏幕位置 y (mm)'; chartInstance.options.scales.y.title.text = '相對峰值光強 I/Imax'; chartInstance.options.scales.y.max = 1.05; chartInstance.update('none');
+            const c = wavelengthToRGB(waveState.lambda);
+            chartModel = { labels: waveProfile.yValues.map(y => (y * 1000).toFixed(3)), data: waveProfile.values, color: c.hex, xTitle: '屏幕位置 y (mm)', yTitle: '相對峰值光強 I/Imax' };
+            drawAnalyticsChart();
         }
         function updateParticleChart() {
             if (!chartInstance) return;
@@ -482,11 +514,9 @@
                 const collected = particleState.emits && particleState.kMax > 0 ? (v >= 0 ? 1 : Math.max(0, Math.min(1, 1 + v / particleState.kMax))) : 0;
                 data.push(collected * particleState.intensity / 100);
             }
-            chartInstance.data.labels = labels; chartInstance.data.datasets[0].label = '相對光電流'; chartInstance.data.datasets[0].data = data;
-            chartInstance.data.datasets[0].borderColor = '#f59e0b'; chartInstance.data.datasets[0].backgroundColor = 'rgba(245,158,11,0.15)';
-            chartInstance.options.scales.x.title.text = '陽極相對陰極電壓 Vₐ−V꜀ (V)'; chartInstance.options.scales.y.title.text = '相對光電流 I/Iₛₐₜ(100%)'; chartInstance.options.scales.y.max = 1.05; chartInstance.update('none');
-        }
-        function startLoop() {
+            chartModel = { labels: labels, data: data, color: '#f59e0b', xTitle: '陽極相對陰極電壓 Vₐ−V꜀ (V)', yTitle: '相對光電流 I/Iₛₐₜ(100%)' };
+            drawAnalyticsChart();
+        }        function startLoop() {
             let previous = 0; function frame(now) { const dt = previous ? Math.min(0.05, (now - previous) / 1000) : 1 / 60; previous = now; render(dt); requestAnimationFrame(frame); }
             requestAnimationFrame(frame);
         }
@@ -498,7 +528,7 @@
             const c = wavelengthToRGB(waveState.lambda), sx = w * 0.1, slitX = w * 0.35, screenX = w * 0.82, cy = h * 0.5;
             const gap = Math.min(58, Math.max(14, waveState.d / 4)), slitWidth = Math.max(3, gap * waveState.a / waveState.d), y1 = cy - gap / 2, y2 = cy + gap / 2;
             ctx.fillStyle = '#1e293b'; ctx.fillRect(10, cy - 25, sx - 10, 50); ctx.strokeStyle = '#475569'; ctx.strokeRect(10, cy - 25, sx - 10, 50);
-            const beamHalfHeight = Math.max(14, gap / 2 + widthPx / 2 + 4);
+            const beamHalfHeight = Math.max(14, gap / 2 + slitWidth / 2 + 4);
             ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.55)';
             ctx.fillRect(sx, cy - beamHalfHeight, slitX - sx, beamHalfHeight * 2);
             ctx.fillStyle = '#334155'; ctx.fillRect(slitX, 20, 12, h - 40); ctx.clearRect(slitX - 2, y1 - slitWidth / 2, 16, slitWidth); ctx.clearRect(slitX - 2, y2 - slitWidth / 2, 16, slitWidth);
