@@ -232,7 +232,7 @@
                     <input type="range" id="particle-voltage" min="-4.0" max="4.0" value="0.0" step="0.05" 
                            class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
                     <div class="flex justify-between text-[10px] text-slate-500 font-mono">
-                        <span>-4.0V (強反向截止)</span>
+                        <span id="voltage-min-label">-4.0V（反向截止區）</span>
                         <span>0V</span>
                         <span>+4.0V (正向加速)</span>
                     </div>
@@ -453,6 +453,14 @@
             particleState.lambda = Number(document.getElementById('particle-lambda').value); particleState.intensity = Number(document.getElementById('particle-intensity').value); particleState.voltage = Number(document.getElementById('particle-voltage').value);
             const photonEnergy = HC_EV_NM / particleState.lambda, frequency = C / (particleState.lambda * 1e-9);
             particleState.kMax = Math.max(0, photonEnergy - particleState.phi); particleState.emits = photonEnergy > particleState.phi;
+            const voltageControl = document.getElementById('particle-voltage');
+            const minVoltage = -Math.max(4, Math.ceil((particleState.kMax + 0.5) * 2) / 2);
+            voltageControl.min = minVoltage.toFixed(1);
+            document.getElementById('voltage-min-label').innerText = minVoltage.toFixed(1) + ' V（反向截止區）';
+            if (particleState.voltage < minVoltage) {
+                particleState.voltage = minVoltage;
+                voltageControl.value = minVoltage.toFixed(1);
+            }
             document.getElementById('particle-lambda-val').innerText = particleState.lambda + ' nm (' + (frequency / 1e15).toFixed(3) + ' PHz)';
             document.getElementById('particle-intensity-val').innerText = particleState.intensity + '%（相對光子通量）'; document.getElementById('particle-voltage-val').innerText = particleState.voltage.toFixed(2) + ' V';
             document.getElementById('readout-e-photon').innerText = photonEnergy.toFixed(3) + ' eV'; document.getElementById('readout-phi').innerText = particleState.phi.toFixed(2) + ' eV';
@@ -510,7 +518,8 @@
         function updateParticleChart() {
             if (!chartInstance) return;
             const labels = [], data = [];
-            for (let v = -4; v <= 4.0001; v += 0.1) {
+            const minVoltage = Number(document.getElementById('particle-voltage').min);
+            for (let v = minVoltage; v <= 4.0001; v += 0.1) {
                 labels.push(v.toFixed(1));
                 const collected = particleState.emits && particleState.kMax > 0 ? (v >= 0 ? 1 : Math.max(0, Math.min(1, 1 + v / particleState.kMax))) : 0;
                 data.push(collected * particleState.intensity / 100);
