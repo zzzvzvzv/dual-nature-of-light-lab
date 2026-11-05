@@ -97,7 +97,7 @@
                 <!-- Wavelength Slider -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">入射光波長（λ）</label>
+                        <label class="text-slate-300 font-medium">入射光波長 λ</label>
                         <span id="wave-lambda-val" class="text-sky-400 font-mono">550 nm</span>
                     </div>
                     <input type="range" id="wave-lambda" min="380" max="750" value="550" step="1" 
@@ -112,7 +112,7 @@
                 <!-- Slit Distance d -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">雙縫間距（d）</label>
+                        <label class="text-slate-300 font-medium">雙縫中心距離 d</label>
                         <span id="wave-d-val" class="text-sky-400 font-mono">150 μm</span>
                     </div>
                     <input type="range" id="wave-d" min="50" max="400" value="150" step="5" 
@@ -122,7 +122,7 @@
                 <!-- Slit Width a -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">單縫寬度（a，決定繞射包絡線）</label>
+                        <label class="text-slate-300 font-medium">每條狹縫寬度 a（不得大於中心距離）</label>
                         <span id="wave-a-val" class="text-sky-400 font-mono">30 μm</span>
                     </div>
                     <input type="range" id="wave-a" min="10" max="80" value="30" step="2" 
@@ -132,7 +132,7 @@
                 <!-- Screen Distance L -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">狹縫至屏距離（L）</label>
+                        <label class="text-slate-300 font-medium">狹縫至屏幕距離 L</label>
                         <span id="wave-L-val" class="text-sky-400 font-mono">1.20 m</span>
                     </div>
                     <input type="range" id="wave-L" min="0.5" max="3.0" value="1.2" step="0.05" 
@@ -161,7 +161,7 @@
                         <button onclick="resetPhotonAccumulation()" class="px-2 py-1 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700">重新累積</button>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <label class="text-xs text-slate-400">發射速率:</label>
+                    <label class="text-xs text-slate-400">模擬偵測速率（次/秒）:</label>
                         <input type="range" id="photon-rate" min="5" max="200" value="50" class="flex-1 h-1.5 bg-slate-800 rounded">
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                 <!-- Custom Work Function Slider -->
                 <div id="custom-phi-container" class="space-y-2 hidden">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300">自訂功函數 Φ（eV）</label>
+                        <label class="text-slate-300">自訂功函數 Φ (eV)</label>
                         <span id="custom-phi-val" class="text-amber-400 font-mono">2.50 eV</span>
                     </div>
                     <input type="range" id="custom-phi" min="1.0" max="6.0" value="2.5" step="0.05" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateParticleParams()">
@@ -201,7 +201,7 @@
                 <!-- Incident Light Wavelength / Frequency -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">入射光波長（λ）/ 頻率（f）</label>
+                        <label class="text-slate-300 font-medium">入射光波長 λ / 頻率 f</label>
                         <span id="particle-lambda-val" class="text-amber-400 font-mono">350 nm (0.86 PHz)</span>
                     </div>
                     <input type="range" id="particle-lambda" min="150" max="750" value="350" step="1" 
@@ -216,7 +216,7 @@
                 <!-- Light Intensity -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">光照強度 I（%）</label>
+                        <label class="text-slate-300 font-medium">光強度（相對光子通量）</label>
                         <span id="particle-intensity-val" class="text-amber-400 font-mono">50 %</span>
                     </div>
                     <input type="range" id="particle-intensity" min="10" max="100" value="50" step="5" 
@@ -226,7 +226,7 @@
                 <!-- Applied External Voltage -->
                 <div class="space-y-2">
                     <div class="flex justify-between text-sm">
-                        <label class="text-slate-300 font-medium">外加電壓 V（正向加速／反向減速）</label>
+                        <label class="text-slate-300 font-medium">外加電壓 V = 陽極電位 − 陰極電位</label>
                         <span id="particle-voltage-val" class="text-amber-400 font-mono">0.00 V</span>
                     </div>
                     <input type="range" id="particle-voltage" min="-4.0" max="4.0" value="0.0" step="0.05" 
@@ -241,19 +241,19 @@
                 <!-- Particle Real-time Output Readout -->
                 <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs space-y-1.5 font-mono">
                     <div class="flex justify-between">
-                        <span class="text-slate-400">入射光子能量 E = hf：</span>
+                        <span class="text-slate-400">入射光子能量 Eγ = hf:</span>
                         <span id="readout-e-photon" class="text-amber-300 font-bold">3.54 eV</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-slate-400">金屬功函數 Φ：</span>
+                        <span class="text-slate-400">金屬功函數 Φ:</span>
                         <span id="readout-phi" class="text-slate-200">2.29 eV</span>
                     </div>
                     <div class="flex justify-between border-t border-slate-800 pt-1">
-                        <span class="text-slate-400">最大電子初動能 Kₘₐₓ：</span>
+                        <span class="text-slate-400">最大電子初動能 Kₘₐₓ:</span>
                         <span id="readout-kmax" class="text-emerald-400 font-bold">1.25 eV</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-slate-400">理論截止電壓 Vₛₜₒₚ：</span>
+                        <span class="text-slate-400">理論截止電壓 Vₛₜₒₚ:</span>
                         <span id="readout-vstop" class="text-rose-400 font-bold">-1.25 V</span>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span id="canvas-status-title" class="text-xs font-mono text-slate-300">即時物理模擬算繪引擎 (Physics Real-time Canvas Engine)</span>
                     </div>
-                    <div class="text-[11px] font-mono text-slate-500">60 FPS</div>
+                    <div class="text-[11px] font-mono text-slate-500">示意動畫（非時間比例）</div>
                 </div>
 
                 <div class="relative w-full aspect-[16/9] sm:aspect-[21/10] bg-black">
@@ -283,9 +283,9 @@
                 <div class="flex justify-between items-center">
                     <h3 id="chart-title" class="text-sm font-semibold text-slate-300 flex items-center space-x-2">
                         <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
-                        <span>干涉光強分布數據曲線 I(y)</span>
+                        <span>雙縫屏幕相對光強 I(y)</span>
                     </h3>
-                    <span id="chart-subtitle" class="text-xs font-mono text-slate-500">理論與數值解析 (Analytic Distribution)</span>
+                    <span id="chart-subtitle" class="text-xs font-mono text-slate-500">近軸 Fresnel 積分；強度已正規化</span>
                 </div>
                 <div class="relative h-44 w-full">
                     <canvas id="analytics-chart"></canvas>
@@ -309,16 +309,15 @@
                         <span>1. 光的波動性：雙縫干涉與繞射 (Wave Nature)</span>
                     </h3>
                     <p class="text-slate-400 leading-relaxed text-xs">
-                        1801年托馬斯·楊（Thomas Young）進行了著名的雙縫實驗。當單色光通過兩條相距為 d 的平行狹縫時，兩條縫作為相干波源發出球面波。
-                        當到達距離為 L 的螢幕時，光波發生叠加干涉。
+                        單色相干光照射兩條平行狹縫時，兩個孔徑的複振幅在屏幕上相加；偵測強度與總振幅的絕對值平方成正比。這個模型假設理想矩形狹縫、均勻入射、相同偏振，並使用近軸 Fresnel 傳播。
                     </p>
                     <div class="bg-slate-900 p-3 rounded text-xs font-mono text-sky-300 space-y-1">
-                        <div>單縫繞射因子: β = πa sinθ/λ ≈ πay/(λL)</div>
-                        <div>雙縫干涉因子: α = πd sinθ/λ ≈ πdy/(λL)</div>
-                        <div class="text-emerald-400 font-bold pt-1">螢幕光強公式: I(y) = I₀ × [sin(β)/β]² × cos²(α)</div>
+                        <div>近軸傳播振幅：A(y) ∝ ∫孔徑 exp[iπ(x−y)²/(λL)] dx</div>
+                        <div>兩縫複振幅：A總(y) = A上(y) + A下(y)</div>
+                        <div class="text-emerald-400 font-bold pt-1">屏幕光強：I(y) ∝ |A總(y)|²；遠場極限才化為 sinc² 包絡 × cos² 條紋</div>
                     </div>
                     <p class="text-slate-400 text-xs">
-                        <strong>量子波粒二象性證明：</strong>弱光下，光子以一次一個的方式被偵測；單次落點是離散的，累積許多次後，落點分布會呈現干涉條紋。這裡的路徑動畫只是示意，落點依干涉機率取樣，不代表光子沿著經典軌跡前進。
+                        <strong>單光子顯示：</strong>每次偵測只出現一個離散落點；落點按本模型的 I(y) 機率密度取樣，累積後趨近同一強度分布。此動畫直接示範 Born 機率分布，沒有模擬光子在狹縫間的可觀測經典路徑。波前間距與裝置幾何均非真實比例。
                     </p>
                 </div>
 
@@ -328,703 +327,248 @@
                         <span>2. 光的粒子性：光電效應 (Particle Nature)</span>
                     </h3>
                     <p class="text-slate-400 leading-relaxed text-xs">
-                        1905年愛因斯坦提出光量子假設，完美解釋了光電效應。光並非連續波動，而是由一顆顆攜帶能量量子 E = hf 的光子組成。
+                        光電效應以光量子模型描述：單一光子能量為 E = hf，逸出電子最大初動能由光子能量扣除材料功函數決定。這裡把功函數視為固定值；真實值會受表面狀態影響。
                     </p>
                     <div class="bg-slate-900 p-3 rounded text-xs font-mono text-amber-300 space-y-1">
-                        <div>光子能量: E = hf = hc/λ（hc ≈ 1240 eV·nm）</div>
-                        <div>光電方程式: Kₘₐₓ = hf − Φ</div>
-                        <div class="text-emerald-400 font-bold pt-1">截止電壓方程: e|Vₛₜₒₚ| = Kₘₐₓ = hf − Φ</div>
+                        <div>光子能量：Eγ = hf = hc/λ，hc ≈ 1239.842 eV·nm</div>
+                        <div>光電方程：Kₘₐₓ = max(Eγ − Φ, 0)</div>
+                        <div class="text-emerald-400 font-bold pt-1">截止電壓：e|Vₛₜₒₚ| = Kₘₐₓ；Vₐ−V꜀ = −Kₘₐₓ/e</div>
                     </div>
                     <ul class="list-disc list-inside text-slate-400 text-xs space-y-1">
-                        <li><strong>紅限波長限制：</strong>若 E < Φ（即 λ > λ₀），無論光照多強，也完全無法釋放電子！</li>
-                        <li><strong>光強與光電流：</strong>光強度 I 主要影響光電流；頻率 f 決定光子能量，進而影響電子的最大初動能 Kₘₐₓ。</li>
-                        <li><strong>反向截止：</strong>當外加反向電壓 V < 0 且 e|V| ≥ Kₘₐₓ 時，電子被靜電力打回陰極，光電流降為零。</li>
+                        <li><strong>閾頻：</strong>只有 Eγ &gt; Φ 才有具正動能的逸出電子；提高光強不會跨越閾頻。</li>
+                        <li><strong>光強與能量：</strong>固定波長時，光強在本模型代表相對光子通量，影響發射率；波長決定 Kₘₐₓ。</li>
+                        <li><strong>反向截止：</strong>定義 V = Vₐ − V꜀；電子到陽極的動能改變為 eV，因此截止點 Vₛₜₒₚ = −Kₘₐₓ/e。</li>
+                        <li><strong>曲線假設：</strong>圖表與動畫假設縱向初動能在 0 至 Kₘₐₓ 均勻分布、均勻電場及固定量子效率；真實金屬的光電流曲線取決於電子能譜與表面條件。</li>
                     </ul>
                 </div>
             </div>
         </div>
+        <p class="max-w-[1800px] mx-auto text-[11px] text-slate-500">
+            參考：<a class="underline hover:text-slate-300" href="https://physics.nist.gov/cuu/Constants/" target="_blank" rel="noreferrer">NIST/CODATA 基本常數</a> ·
+            <a class="underline hover:text-slate-300" href="https://personal.lse.ac.uk/robert49/teaching/ph232/pdf/einstein-lightquantum.pdf" target="_blank" rel="noreferrer">Einstein (1905) 光量子論文</a> ·
+            <a class="underline hover:text-slate-300" href="https://opg.optica.org/josa/abstract.cfm?uri=josa-59-3-293" target="_blank" rel="noreferrer">Fresnel 狹縫繞射實驗與理論</a> ·
+            <a class="underline hover:text-slate-300" href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.2.012051" target="_blank" rel="noreferrer">Born 規則與干涉機率</a>
+        </p>
     </footer>
 
     <script>
-        // Global Simulation State
-        let currentMode = 'wave'; // 'wave' or 'particle'
-        let waveViewMode = 'wavefront'; // 'wavefront' or 'photon'
+        // Paraxial Fresnel double-slit model plus a stated 1D photoelectric model.
+        const C = 299792458, HC_EV_NM = 1239.841984, PHOTOELECTRIC_QE = 0.35;
+        const SCREEN_HALF_HEIGHT_M = 0.005;
+        let currentMode = 'wave', waveViewMode = 'wavefront', chartInstance = null;
+        let waveProfile = { yValues: [], values: [], cdf: [], total: 0 };
+        const canvas = document.getElementById('physics-canvas'), ctx = canvas.getContext('2d');
+        const waveState = { lambda: 550, d: 150, a: 30, L: 1.2, phase: 0, bins: Array(100).fill(0), recent: [], total: 0, accumulator: 0 };
+        const particleState = { lambda: 350, phi: 2.29, intensity: 50, voltage: 0, photons: [], electrons: [], accumulator: 0, kMax: 0, emits: false };
 
-        // Canvas & Contexts
-        let canvas = document.getElementById('physics-canvas');
-        let ctx = canvas.getContext('2d');
-        let chartInstance = null;
-
-        // Animation Request ID
-        let animId = null;
-
-        // Wave Mode State Variables
-        let waveState = {
-            lambda: 550, // nm
-            d: 150,      // um
-            a: 30,       // um
-            L: 1.2,      // m
-            phase: 0,
-            photons: [], // Photons on screen accumulated: array of y-coords
-            flyingPhotons: [], // Photons traveling from slit to screen
-            totalPhotonsEmitted: 0
-        };
-
-        // Particle Mode State Variables
-        let particleState = {
-            lambda: 350,   // nm
-            phi: 2.29,     // eV (Potassium default)
-            intensity: 50, // %
-            voltage: 0.0,  // Volts
-            photons: [],   // Active moving photons
-            electrons: [], // Active moving electrons
-            photocurrentHistory: [], // Real-time photocurrent samples
-            arrivedElectronsCount: 0,
-            totalEmittedElectrons: 0,
-            timeStepCounter: 0
-        };
-
-        // Physical Constants (Normalized for Canvas simulation)
-        const HC = 1240.0; // eV * nm
-
-        // Initialize Application on Window Load
-        window.onload = function() {
-            setupCanvasSize();
-            window.addEventListener('resize', setupCanvasSize);
-            initChart();
-            updateWaveParams();
-            updateParticleParams();
-            startLoop();
-        };
-
+        window.addEventListener('load', function () {
+            setupCanvasSize(); window.addEventListener('resize', setupCanvasSize);
+            initChart(); updateWaveParams(); updateParticleParams(); startLoop();
+        });
         function setupCanvasSize() {
-            const container = canvas.parentElement;
-            canvas.width = container.clientWidth * window.devicePixelRatio || 800;
-            canvas.height = container.clientHeight * window.devicePixelRatio || 450;
+            const ratio = window.devicePixelRatio || 1, width = canvas.clientWidth || 800, height = canvas.clientHeight || 450;
+            canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio); ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         }
-
-        // Color Converter from Wavelength (nm) to RGB
-        function wavelengthToRGB(wavelength) {
-            let R, G, B;
-            if (wavelength >= 380 && wavelength < 440) {
-                R = -(wavelength - 440) / (440 - 380); G = 0.0; B = 1.0;
-            } else if (wavelength >= 440 && wavelength < 490) {
-                R = 0.0; G = (wavelength - 440) / (490 - 440); B = 1.0;
-            } else if (wavelength >= 490 && wavelength < 510) {
-                R = 0.0; G = 1.0; B = -(wavelength - 510) / (510 - 490);
-            } else if (wavelength >= 510 && wavelength < 580) {
-                R = (wavelength - 510) / (580 - 510); G = 1.0; B = 0.0;
-            } else if (wavelength >= 580 && wavelength < 645) {
-                R = 1.0; G = -(wavelength - 645) / (645 - 580); B = 0.0;
-            } else if (wavelength >= 645 && wavelength <= 780) {
-                R = 1.0; G = 0.0; B = 0.0;
-            } else {
-                // UV or IR default fallback visualization
-                if (wavelength < 380) { R = 0.6; G = 0.1; B = 0.9; } // Ultraviolet
-                else { R = 0.5; G = 0.0; B = 0.0; } // Infrared
-            }
-
-            // Intensity factor near human eye limits
-            let factor = 1.0;
-            if (wavelength >= 380 && wavelength < 420) {
-                factor = 0.3 + 0.7 * (wavelength - 380) / (420 - 380);
-            } else if (wavelength >= 700 && wavelength <= 780) {
-                factor = 0.3 + 0.7 * (780 - wavelength) / (780 - 700);
-            }
-
-            R = Math.floor(255 * Math.pow(R * factor, 0.8));
-            G = Math.floor(255 * Math.pow(G * factor, 0.8));
-            B = Math.floor(255 * Math.pow(B * factor, 0.8));
-
-            return { r: Math.max(20, R), g: Math.max(20, G), b: Math.max(20, B), hex: `rgb(${R},${G},${B})` };
+        function wavelengthToRGB(w) {
+            let r, g, b;
+            if (w < 380) { r = 0.55; g = 0.15; b = 0.9; }
+            else if (w < 440) { r = -(w - 440) / 60; g = 0; b = 1; }
+            else if (w < 490) { r = 0; g = (w - 440) / 50; b = 1; }
+            else if (w < 510) { r = 0; g = 1; b = -(w - 510) / 20; }
+            else if (w < 580) { r = (w - 510) / 70; g = 1; b = 0; }
+            else if (w < 645) { r = 1; g = -(w - 645) / 65; b = 0; }
+            else { r = 1; g = 0; b = 0; }
+            const f = w < 420 ? 0.45 + 0.55 * (w - 380) / 40 : (w > 700 ? Math.max(0.25, 1 - (w - 700) / 200) : 1);
+            const R = Math.round(255 * Math.pow(Math.max(0, r * f), 0.8)), G = Math.round(255 * Math.pow(Math.max(0, g * f), 0.8)), B = Math.round(255 * Math.pow(Math.max(0, b * f), 0.8));
+            return { r: R, g: G, b: B, hex: 'rgb(' + R + ',' + G + ',' + B + ')' };
         }
-
-        // Mode Switching Handler
         function switchMode(mode) {
-            currentMode = mode;
-            const tabWave = document.getElementById('tab-wave');
-            const tabParticle = document.getElementById('tab-particle');
-            const controlsWave = document.getElementById('controls-wave');
-            const controlsParticle = document.getElementById('controls-particle');
-            const chartTitle = document.getElementById('chart-title');
-            const chartSub = document.getElementById('chart-subtitle');
-
-            if (mode === 'wave') {
-                tabWave.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-sky-600 text-white shadow-md";
-                tabParticle.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
-                controlsWave.classList.remove('hidden');
-                controlsParticle.classList.add('hidden');
-                chartTitle.innerHTML = `<svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg><span>干涉光強分布數據曲線 I(y)</span>`;
-                chartSub.innerText = "理論與數值解析 (Analytic Wave Distribution)";
-                updateWaveChart();
-            } else {
-                tabParticle.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-amber-600 text-white shadow-md";
-                tabWave.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
-                controlsParticle.classList.remove('hidden');
-                controlsWave.classList.add('hidden');
-                chartTitle.innerHTML = `<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg><span>光電流與電壓關係曲線 (I - V 特性圖)</span>`;
-                chartSub.innerText = "理想化光電流曲線（Photocurrent I–V）";
-                updateParticleChart();
-            }
+            currentMode = mode; const wave = mode === 'wave';
+            document.getElementById('tab-wave').className = wave ? 'flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-sky-600 text-white shadow-md' : 'flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200';
+            document.getElementById('tab-particle').className = !wave ? 'flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-amber-600 text-white shadow-md' : 'flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200';
+            document.getElementById('controls-wave').classList.toggle('hidden', !wave); document.getElementById('controls-particle').classList.toggle('hidden', wave);
+            document.getElementById('chart-title').innerHTML = wave ? '<span>雙縫屏幕相對光強 I(y)</span>' : '<span>理想化光電流—電壓曲線（I–V）</span>';
+            document.getElementById('chart-subtitle').innerText = wave ? '近軸 Fresnel 積分；I(y) 對峰值正規化' : '簡化模型：縱向初動能在 0 至 Kmax 均勻分布';
+            if (wave) updateWaveChart(); else updateParticleChart();
         }
-
-        // WAVE MODE LOGIC & PHYSICS CALCULATIONS
-        function updateWaveParams() {
-            waveState.lambda = parseFloat(document.getElementById('wave-lambda').value);
-            waveState.d = parseFloat(document.getElementById('wave-d').value);
-            waveState.a = parseFloat(document.getElementById('wave-a').value);
-            waveState.L = parseFloat(document.getElementById('wave-L').value);
-
-            document.getElementById('wave-lambda-val').innerText = `${waveState.lambda} nm`;
-            document.getElementById('wave-d-val').innerText = `${waveState.d} μm`;
-            document.getElementById('wave-a-val').innerText = `${waveState.a} μm`;
-            document.getElementById('wave-L-val').innerText = `${waveState.L.toFixed(2)} m`;
-
-            if (currentMode === 'wave') {
-                updateWaveChart();
-            }
-        }
-
         function setWaveViewMode(mode) {
             waveViewMode = mode;
-            const btnWave = document.getElementById('btn-mode-wavefront');
-            const btnPhoton = document.getElementById('btn-mode-photon');
-            const photonCtrl = document.getElementById('photon-controls');
-
-            if (mode === 'wavefront') {
-                btnWave.className = "px-3 py-2 text-xs rounded-lg border border-sky-500 bg-sky-950 text-sky-200 font-medium transition";
-                btnPhoton.className = "px-3 py-2 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-medium hover:border-slate-600 transition";
-                photonCtrl.classList.add('hidden');
-            } else {
-                btnPhoton.className = "px-3 py-2 text-xs rounded-lg border border-sky-500 bg-sky-950 text-sky-200 font-medium transition";
-                btnWave.className = "px-3 py-2 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-medium hover:border-slate-600 transition";
-                photonCtrl.classList.remove('hidden');
-            }
+            const active = 'px-3 py-2 text-xs rounded-lg border border-sky-500 bg-sky-950 text-sky-200 font-medium transition', inactive = 'px-3 py-2 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-medium hover:border-slate-600 transition';
+            document.getElementById('btn-mode-wavefront').className = mode === 'wavefront' ? active : inactive;
+            document.getElementById('btn-mode-photon').className = mode === 'photon' ? active : inactive;
+            document.getElementById('photon-controls').classList.toggle('hidden', mode !== 'photon');
         }
-
+        function updateWaveParams() {
+            waveState.lambda = Number(document.getElementById('wave-lambda').value); waveState.d = Number(document.getElementById('wave-d').value);
+            waveState.a = Number(document.getElementById('wave-a').value); waveState.L = Number(document.getElementById('wave-L').value);
+            const control = document.getElementById('wave-a'); control.max = String(Math.min(80, Math.max(10, Math.floor(waveState.d * 0.8 / 2) * 2)));
+            if (waveState.a > Number(control.max)) { control.value = control.max; waveState.a = Number(control.value); }
+            document.getElementById('wave-lambda-val').innerText = waveState.lambda + ' nm'; document.getElementById('wave-d-val').innerText = waveState.d + ' μm';
+            document.getElementById('wave-a-val').innerText = waveState.a + ' μm'; document.getElementById('wave-L-val').innerText = waveState.L.toFixed(2) + ' m';
+            buildWaveProfile(); if (currentMode === 'wave') updateWaveChart();
+        }
         function resetPhotonAccumulation() {
-            waveState.photons = [];
-            waveState.flyingPhotons = [];
-            waveState.totalPhotonsEmitted = 0;
-            document.getElementById('photon-count').innerText = "0";
-            if (currentMode === 'wave') {
-                updateWaveChart();
-            }
+            waveState.bins.fill(0); waveState.recent = []; waveState.total = 0; waveState.accumulator = 0;
+            document.getElementById('photon-count').innerText = '0';
         }
-
-        // Double Slit Intensity Function I(y) calculation
-        function calculateWaveIntensity(yScreen, maxScreenY) {
-            // yScreen is relative screen position in meters
-            // theta angle: sin(theta) ~ y / L
-            const sinTheta = yScreen / waveState.L;
-            const lambdaM = waveState.lambda * 1e-9;
-            const dM = waveState.d * 1e-6;
-            const aM = waveState.a * 1e-6;
-
-            // Beta (Single slit diffraction)
-            const beta = (Math.PI * aM * sinTheta) / lambdaM;
-            // Alpha (Double slit interference)
-            const alpha = (Math.PI * dM * sinTheta) / lambdaM;
-
-            // Diffraction factor
-            let diff = 1.0;
-            if (Math.abs(beta) > 1e-7) {
-                diff = Math.sin(beta) / beta;
-            }
-
-            // Interference factor
-            const interf = Math.cos(alpha);
-
-            // Total intensity I = I_0 * (sin(beta)/beta)^2 * cos^2(alpha)
-            return (diff * diff) * (interf * interf);
-        }
-
-        // Monte Carlo Rejection Sampling for Photons
-        function samplePhotonScreenY(maxY) {
-            // Sampling Y position from -maxY to +maxY based on probability density function P(y) = I(y)
-            let attempts = 0;
-            while (attempts < 100) {
-                let testY = (Math.random() * 2 - 1) * maxY;
-                let prob = calculateWaveIntensity(testY, maxY);
-                if (Math.random() <= prob) {
-                    return testY;
+        // Fresnel propagation: U(y) ∝ ∫exp[iπ(x-y)²/(λL)]dx; I(y) ∝ |U(y)|².
+        function buildWaveProfile() {
+            const points = 400, samples = 120, half = SCREEN_HALF_HEIGHT_M, lambda = waveState.lambda * 1e-9, width = waveState.a * 1e-6, separation = waveState.d * 1e-6, raw = [], ys = [];
+            for (let i = 0; i <= points; i++) {
+                const y = -half + 2 * half * i / points; let re = 0, im = 0;
+                for (const center of [-separation / 2, separation / 2]) for (let j = 0; j < samples; j++) {
+                    const x = center - width / 2 + (j + 0.5) * width / samples, phase = Math.PI * (x - y) * (x - y) / (lambda * waveState.L);
+                    re += Math.cos(phase); im += Math.sin(phase);
                 }
-                attempts++;
+                raw.push(re * re + im * im); ys.push(y);
             }
-            return 0; // Fallback center
+            const peak = Math.max.apply(null, raw.concat([1e-30])), values = raw.map(v => v / peak), cdf = [0];
+            for (let i = 1; i < values.length; i++) cdf.push(cdf[i - 1] + (values[i] + values[i - 1]) * (ys[i] - ys[i - 1]) / 2);
+            waveProfile = { yValues: ys, values: values, cdf: cdf, total: cdf[cdf.length - 1] };
         }
-
-        // PARTICLE MODE LOGIC & PHYSICS CALCULATIONS
+        function calculateWaveIntensity(y) {
+            const p = waveProfile; if (!p.yValues.length) return 0;
+            const dy = p.yValues[1] - p.yValues[0], pos = Math.max(0, Math.min(p.yValues.length - 1, (y - p.yValues[0]) / dy)), i = Math.min(p.yValues.length - 2, Math.floor(pos)), t = pos - i;
+            return p.values[i] + (p.values[i + 1] - p.values[i]) * t;
+        }
+        // Inverse-CDF sampling uses the same intensity distribution; no biased fallback.
+        function samplePhotonScreenY() {
+            const p = waveProfile, target = Math.random() * p.total; let lo = 0, hi = p.cdf.length - 1;
+            while (lo + 1 < hi) { const mid = (lo + hi) >> 1; if (p.cdf[mid] < target) lo = mid; else hi = mid; }
+            const dx = p.yValues[lo + 1] - p.yValues[lo], f0 = p.values[lo], slope = (p.values[lo + 1] - f0) / dx, area = target - p.cdf[lo];
+            let offset;
+            if (Math.abs(slope) < 1e-12) offset = f0 > 0 ? area / f0 : Math.random() * dx;
+            else offset = (-f0 + Math.sqrt(Math.max(0, f0 * f0 + 2 * slope * area))) / slope;
+            return p.yValues[lo] + Math.max(0, Math.min(dx, offset));
+        }
         function updateMetalWorkFunction() {
-            const select = document.getElementById('metal-select');
-            const customContainer = document.getElementById('custom-phi-container');
-
-            if (select.value === 'custom') {
-                customContainer.classList.remove('hidden');
-                particleState.phi = parseFloat(document.getElementById('custom-phi').value);
-            } else {
-                customContainer.classList.add('hidden');
-                particleState.phi = parseFloat(select.value);
-            }
-            updateParticleParams();
+            const select = document.getElementById('metal-select'), custom = select.value === 'custom';
+            document.getElementById('custom-phi-container').classList.toggle('hidden', !custom);
+            particleState.phi = custom ? Number(document.getElementById('custom-phi').value) : Number(select.value); updateParticleParams();
         }
-
         function updateParticleParams() {
             if (document.getElementById('metal-select').value === 'custom') {
-                particleState.phi = parseFloat(document.getElementById('custom-phi').value);
-                document.getElementById('custom-phi-val').innerText = `${particleState.phi.toFixed(2)} eV`;
+                particleState.phi = Number(document.getElementById('custom-phi').value); document.getElementById('custom-phi-val').innerText = particleState.phi.toFixed(2) + ' eV';
             }
-
-            particleState.lambda = parseFloat(document.getElementById('particle-lambda').value);
-            particleState.intensity = parseFloat(document.getElementById('particle-intensity').value);
-            particleState.voltage = parseFloat(document.getElementById('particle-voltage').value);
-
-            const freqPHz = (3e8 / (particleState.lambda * 1e-9) / 1e15).toFixed(2);
-            document.getElementById('particle-lambda-val').innerText = `${particleState.lambda} nm (${freqPHz} PHz)`;
-            document.getElementById('particle-intensity-val').innerText = `${particleState.intensity} %`;
-            document.getElementById('particle-voltage-val').innerText = `${particleState.voltage.toFixed(2)} V`;
-
-            // Physics calculation: E = hc / lambda (eV)
-            const ePhoton = HC / particleState.lambda;
-            const kMax = Math.max(0, ePhoton - particleState.phi);
-            const vStop = -kMax;
-
-            document.getElementById('readout-e-photon').innerText = `${ePhoton.toFixed(2)} eV`;
-            document.getElementById('readout-phi').innerText = `${particleState.phi.toFixed(2)} eV`;
-            document.getElementById('readout-kmax').innerText = `${kMax.toFixed(2)} eV`;
-            document.getElementById('readout-vstop').innerText = `${vStop.toFixed(2)} V`;
-
-            if (currentMode === 'particle') {
-                updateParticleChart();
-            }
+            particleState.lambda = Number(document.getElementById('particle-lambda').value); particleState.intensity = Number(document.getElementById('particle-intensity').value); particleState.voltage = Number(document.getElementById('particle-voltage').value);
+            const photonEnergy = HC_EV_NM / particleState.lambda, frequency = C / (particleState.lambda * 1e-9);
+            particleState.kMax = Math.max(0, photonEnergy - particleState.phi); particleState.emits = photonEnergy > particleState.phi;
+            document.getElementById('particle-lambda-val').innerText = particleState.lambda + ' nm (' + (frequency / 1e15).toFixed(3) + ' PHz)';
+            document.getElementById('particle-intensity-val').innerText = particleState.intensity + '%（相對光子通量）'; document.getElementById('particle-voltage-val').innerText = particleState.voltage.toFixed(2) + ' V';
+            document.getElementById('readout-e-photon').innerText = photonEnergy.toFixed(3) + ' eV'; document.getElementById('readout-phi').innerText = particleState.phi.toFixed(2) + ' eV';
+            document.getElementById('readout-kmax').innerText = particleState.kMax.toFixed(3) + ' eV'; document.getElementById('readout-vstop').innerText = (-particleState.kMax).toFixed(3) + ' V';
+            if (currentMode === 'particle') updateParticleChart();
         }
-
-        // CHART MANAGEMENT (CHART.JS)
         function initChart() {
-            const ctxChart = document.getElementById('analytics-chart').getContext('2d');
-            chartInstance = new Chart(ctxChart, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: '相對強度 I',
-                        data: [],
-                        borderColor: '#38bdf8',
-                        backgroundColor: 'rgba(56, 189, 248, 0.15)',
-                        borderWidth: 2,
-                        fill: true,
-                        pointRadius: 0,
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: false,
-                    scales: {
-                        x: {
-                            grid: { color: '#1e293b' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
-                        },
-                        y: {
-                            min: 0,
-                            max: 1.05,
-                            grid: { color: '#1e293b' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
+            chartInstance = new Chart(document.getElementById('analytics-chart').getContext('2d'), {
+                type: 'line', data: { labels: [], datasets: [{ label: '相對強度', data: [], borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.15)', borderWidth: 2, fill: true, pointRadius: 0, tension: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, animation: false, scales: {
+                    x: { title: { display: true, text: '屏幕位置 y (mm)', color: '#94a3b8' }, grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 9 } },
+                    y: { min: 0, max: 1.05, title: { display: true, text: '相對峰值光強 I/Imax', color: '#94a3b8' }, grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+                }, plugins: { legend: { display: false } } }
             });
         }
-
         function updateWaveChart() {
             if (!chartInstance) return;
-            const points = 150;
-            const labels = [];
-            const data = [];
-            const maxScreenY = 0.005; // 5 mm span on screen
-
-            for (let i = 0; i <= points; i++) {
-                const yMeters = ((i / points) * 2 - 1) * maxScreenY;
-                const intensity = calculateWaveIntensity(yMeters, maxScreenY);
-                labels.push((yMeters * 1000).toFixed(1)); // in mm
-                data.push(intensity);
-            }
-
-            const colorRGB = wavelengthToRGB(waveState.lambda);
-
-            chartInstance.options.scales.x.title = { display: true, text: '螢幕位置 y（mm）', color: '#94a3b8' };
-            chartInstance.options.scales.y.title = { display: true, text: '相對光強 I/I₀', color: '#94a3b8' };
-            chartInstance.data.labels = labels;
-            chartInstance.data.datasets[0].label = '干涉光強分佈 I(y)';
-            chartInstance.data.datasets[0].data = data;
-            chartInstance.data.datasets[0].borderColor = colorRGB.hex;
-            chartInstance.data.datasets[0].backgroundColor = `rgba(${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b}, 0.2)`;
-            chartInstance.options.scales.y.max = 1.05;
-            chartInstance.update();
+            chartInstance.data.labels = waveProfile.yValues.map(y => (y * 1000).toFixed(2)); chartInstance.data.datasets[0].label = '相對峰值光強 I/Imax'; chartInstance.data.datasets[0].data = waveProfile.values;
+            const c = wavelengthToRGB(waveState.lambda); chartInstance.data.datasets[0].borderColor = c.hex; chartInstance.data.datasets[0].backgroundColor = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.2)';
+            chartInstance.options.scales.x.title.text = '屏幕位置 y (mm)'; chartInstance.options.scales.y.title.text = '相對峰值光強 I/Imax'; chartInstance.options.scales.y.max = 1.05; chartInstance.update('none');
         }
-
         function updateParticleChart() {
             if (!chartInstance) return;
-
-            // Build theoretical I-V Curve for photoelectric effect
-            const ePhoton = HC / particleState.lambda;
-            const kMax = Math.max(0, ePhoton - particleState.phi);
-            const vStop = -kMax;
-
-            const vPoints = [];
-            const iPoints = [];
-
-            const isEmissionAllowed = ePhoton >= particleState.phi;
-            const maxCurrentScale = particleState.intensity / 100;
-
-            for (let v = -4.0; v <= 4.0; v += 0.1) {
-                vPoints.push(v.toFixed(1));
-                if (!isEmissionAllowed) {
-                    iPoints.push(0);
-                } else {
-                    if (v < vStop) {
-                        iPoints.push(0);
-                    } else {
-                        // Smooth transition from stopping voltage to saturation current
-                        let factor = (v - vStop) / 0.8;
-                        if (factor > 1.0) factor = 1.0;
-                        iPoints.push(factor * maxCurrentScale);
-                    }
-                }
+            const labels = [], data = [];
+            for (let v = -4; v <= 4.0001; v += 0.1) {
+                labels.push(v.toFixed(1));
+                const collected = particleState.emits && particleState.kMax > 0 ? (v >= 0 ? 1 : Math.max(0, Math.min(1, 1 + v / particleState.kMax))) : 0;
+                data.push(collected * particleState.intensity / 100);
             }
-
-            chartInstance.options.scales.x.title = { display: true, text: '外加電壓 V（V）', color: '#94a3b8' };
-            chartInstance.options.scales.y.title = { display: true, text: '相對光電流（依光強縮放）', color: '#94a3b8' };
-            chartInstance.data.labels = vPoints;
-            chartInstance.data.datasets[0].label = '光電流 I vs 電壓 V';
-            chartInstance.data.datasets[0].data = iPoints;
-            chartInstance.data.datasets[0].borderColor = '#f59e0b';
-            chartInstance.data.datasets[0].backgroundColor = 'rgba(245, 158, 11, 0.15)';
-            chartInstance.options.scales.y.max = 1.1;
-            chartInstance.update();
+            chartInstance.data.labels = labels; chartInstance.data.datasets[0].label = '相對光電流'; chartInstance.data.datasets[0].data = data;
+            chartInstance.data.datasets[0].borderColor = '#f59e0b'; chartInstance.data.datasets[0].backgroundColor = 'rgba(245,158,11,0.15)';
+            chartInstance.options.scales.x.title.text = '陽極相對陰極電壓 Vₐ−V꜀ (V)'; chartInstance.options.scales.y.title.text = '相對光電流 I/Iₛₐₜ(100%)'; chartInstance.options.scales.y.max = 1.05; chartInstance.update('none');
         }
-
-        // MAIN ANIMATION LOOP & PHYSICS RENDERER
         function startLoop() {
-            function loop() {
-                render();
-                animId = requestAnimationFrame(loop);
-            }
-            loop();
+            let previous = 0; function frame(now) { const dt = previous ? Math.min(0.05, (now - previous) / 1000) : 1 / 60; previous = now; render(dt); requestAnimationFrame(frame); }
+            requestAnimationFrame(frame);
         }
-
-        function render() {
-            const w = canvas.width;
-            const h = canvas.height;
-
-            // Clear Background
-            ctx.fillStyle = '#050b14';
-            ctx.fillRect(0, 0, w, h);
-
-            if (currentMode === 'wave') {
-                renderWaveSimulation(w, h);
-            } else {
-                renderParticleSimulation(w, h);
-            }
+        function render(dt) {
+            const w = canvas.clientWidth, h = canvas.clientHeight; ctx.clearRect(0, 0, w, h); ctx.fillStyle = '#050b14'; ctx.fillRect(0, 0, w, h);
+            if (currentMode === 'wave') renderWaveSimulation(w, h, dt); else renderParticleSimulation(w, h, dt);
         }
-
-        // RENDER WAVE MODE (Double Slit)
-        function renderWaveSimulation(w, h) {
-            const color = wavelengthToRGB(waveState.lambda);
-            
-            // Screen geometry locations
-            const sourceX = w * 0.1;
-            const slitX = w * 0.35;
-            const screenX = w * 0.82;
-            const centerY = h * 0.5;
-
-            // Draw Laser Light Source Beam
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(10, centerY - 25, sourceX - 10, 50);
-            ctx.strokeStyle = '#475569';
-            ctx.strokeRect(10, centerY - 25, sourceX - 10, 50);
-
-            // Laser Emission Beam to Slit Plate
-            ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
-            ctx.fillRect(sourceX, centerY - 15, slitX - sourceX, 30);
-
-            // Slit Barrier Wall
-            ctx.fillStyle = '#334155';
-            ctx.fillRect(slitX, 20, 12, h - 40);
-
-            // Double Slits gaps
-            const slitGapVisual = Math.min(60, Math.max(12, waveState.d / 4));
-            const slit1Y = centerY - slitGapVisual / 2;
-            const slit2Y = centerY + slitGapVisual / 2;
-            const slitWidthVisual = Math.max(2, waveState.a / 10);
-
-            ctx.clearRect(slitX - 2, slit1Y - slitWidthVisual / 2, 16, slitWidthVisual);
-            ctx.clearRect(slitX - 2, slit2Y - slitWidthVisual / 2, 16, slitWidthVisual);
-
-            // MODE 1A: Continuous Wavefront Ripple Visualization
+        function renderWaveSimulation(w, h, dt) {
+            const c = wavelengthToRGB(waveState.lambda), sx = w * 0.1, slitX = w * 0.35, screenX = w * 0.82, cy = h * 0.5;
+            const gap = Math.min(58, Math.max(14, waveState.d / 4)), slitWidth = Math.max(3, gap * waveState.a / waveState.d), y1 = cy - gap / 2, y2 = cy + gap / 2;
+            ctx.fillStyle = '#1e293b'; ctx.fillRect(10, cy - 25, sx - 10, 50); ctx.strokeStyle = '#475569'; ctx.strokeRect(10, cy - 25, sx - 10, 50);
+            const beamHalfHeight = Math.max(14, gap / 2 + widthPx / 2 + 4);
+            ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.55)';
+            ctx.fillRect(sx, cy - beamHalfHeight, slitX - sx, beamHalfHeight * 2);
+            ctx.fillStyle = '#334155'; ctx.fillRect(slitX, 20, 12, h - 40); ctx.clearRect(slitX - 2, y1 - slitWidth / 2, 16, slitWidth); ctx.clearRect(slitX - 2, y2 - slitWidth / 2, 16, slitWidth);
             if (waveViewMode === 'wavefront') {
-                waveState.phase += 0.15;
-                const wavelengthPixels = waveState.lambda / 15;
-                const maxRadius = screenX - slitX;
-
-                ctx.save();
-                ctx.beginPath();
-                ctx.rect(slitX, 0, screenX - slitX, h);
-                ctx.clip();
-
-                // Draw expanding spherical wave ripples from both slits
-                for (let r = (waveState.phase * 3) % wavelengthPixels; r < maxRadius; r += wavelengthPixels) {
-                    const alpha = Math.max(0.05, 1 - r / maxRadius);
-                    ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.5})`;
-                    ctx.lineWidth = 2;
-
-                    // Slit 1 wavefront
-                    ctx.beginPath();
-                    ctx.arc(slitX, slit1Y, r, -Math.PI / 2, Math.PI / 2);
-                    ctx.stroke();
-
-                    // Slit 2 wavefront
-                    ctx.beginPath();
-                    ctx.arc(slitX, slit2Y, r, -Math.PI / 2, Math.PI / 2);
-                    ctx.stroke();
+                waveState.phase = (waveState.phase + 28 * dt) % 18; ctx.save(); ctx.beginPath(); ctx.rect(slitX, 0, screenX - slitX, h); ctx.clip();
+                for (let r = waveState.phase; r < screenX - slitX; r += 18) {
+                    const alpha = 0.38 * Math.max(0.08, 1 - r / (screenX - slitX)); ctx.strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + alpha + ')'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.arc(slitX, y1, r, -Math.PI / 2, Math.PI / 2); ctx.stroke(); ctx.beginPath(); ctx.arc(slitX, y2, r, -Math.PI / 2, Math.PI / 2); ctx.stroke();
+                } ctx.restore();
+            } else {
+                const rate = Number(document.getElementById('photon-rate').value); waveState.accumulator += rate * dt; const n = Math.floor(waveState.accumulator); waveState.accumulator -= n;
+                for (let i = 0; i < n; i++) {
+                    const y = samplePhotonScreenY(), bin = Math.max(0, Math.min(99, Math.floor((y / SCREEN_HALF_HEIGHT_M + 1) * 50)));
+                    waveState.bins[bin]++; waveState.total++; waveState.recent.push({ y: y, mark: Math.random() * 18 });
                 }
-                ctx.restore();
-            } 
-            // MODE 1B: Discrete Quantum Photon Particle Accumulation
-            else {
-                const fireRate = parseInt(document.getElementById('photon-rate').value);
-                
-                // Spawn new photons in transit
-                for (let i = 0; i < Math.ceil(fireRate / 10); i++) {
-                    const targetScreenY = samplePhotonScreenY(0.005);
-                    // Map screen Y (-0.005m to +0.005m) to canvas pixels
-                    const targetPixelY = centerY + (targetScreenY / 0.005) * (h * 0.4);
-                    const fromSlit1 = Math.random() < 0.5;
-
-                    waveState.flyingPhotons.push({
-                        x: slitX,
-                        y: fromSlit1 ? slit1Y : slit2Y,
-                        targetY: targetPixelY,
-                        progress: 0,
-                        speed: 0.03 + Math.random() * 0.01
-                    });
-                }
-
-                // Update flying photons
-                ctx.fillStyle = color.hex;
-                for (let i = waveState.flyingPhotons.length - 1; i >= 0; i--) {
-                    let p = waveState.flyingPhotons[i];
-                    p.progress += p.speed;
-
-                    let curX = slitX + (screenX - slitX) * p.progress;
-                    let curY = p.y + (p.targetY - p.y) * p.progress;
-
-                    ctx.beginPath();
-                    ctx.arc(curX, curY, 2.5, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    if (p.progress >= 1.0) {
-                        // Arrived at detector screen
-                        waveState.photons.push({ y: p.targetY });
-                        waveState.totalPhotonsEmitted++;
-                        waveState.flyingPhotons.splice(i, 1);
-                    }
-                }
-
-                document.getElementById('photon-count').innerText = waveState.totalPhotonsEmitted;
+                if (waveState.recent.length > 600) waveState.recent.splice(0, waveState.recent.length - 600);
+                document.getElementById('photon-count').innerText = waveState.total.toLocaleString();
             }
-
-            // Draw Observation Screen
-            ctx.fillStyle = '#020617';
-            ctx.fillRect(screenX, 20, 25, h - 40);
-            ctx.strokeStyle = '#475569';
-            ctx.strokeRect(screenX, 20, 25, h - 40);
-
-            // Draw Real Intensity Fringe Result on Screen
-            const screenHeight = h - 40;
-            const maxScreenY = 0.005;
-
+            ctx.fillStyle = '#020617'; ctx.fillRect(screenX, 20, 28, h - 40); ctx.strokeStyle = '#475569'; ctx.strokeRect(screenX, 20, 28, h - 40);
             if (waveViewMode === 'wavefront') {
                 for (let py = 20; py < h - 20; py += 2) {
-                    const normY = ((py - centerY) / (h * 0.4)) * maxScreenY;
-                    const intensity = calculateWaveIntensity(normY, maxScreenY);
-
-                    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${intensity})`;
-                    ctx.fillRect(screenX + 1, py, 23, 2);
+                    const y = ((py - cy) / (h * 0.4)) * SCREEN_HALF_HEIGHT_M, v = calculateWaveIntensity(y);
+                    ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + v + ')'; ctx.fillRect(screenX + 1, py, 26, 2);
                 }
             } else {
-                // Render Accumulated Photons on Screen
-                for (let p of waveState.photons) {
-                    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
-                    ctx.fillRect(screenX + 2, p.y - 1, 21, 2);
+                const maxCount = Math.max.apply(null, waveState.bins.concat([1]));
+                for (let i = 0; i < 100; i++) if (waveState.bins[i]) {
+                    const y = 20 + i / 100 * (h - 40), alpha = Math.min(0.85, 0.18 + waveState.bins[i] / maxCount * 0.67);
+                    ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + alpha + ')'; ctx.fillRect(screenX + 1, y, 26, Math.max(1, (h - 40) / 100));
                 }
+                ctx.fillStyle = '#f8fafc'; for (const hit of waveState.recent) ctx.fillRect(screenX + 3 + hit.mark, cy + hit.y / SCREEN_HALF_HEIGHT_M * h * 0.4, 2, 2);
             }
-
-            // Screen Labels
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '12px monospace';
-            ctx.fillText("雙狹縫 (d, a)", slitX - 35, 15);
-            ctx.fillText("干涉屏幕 (Screen)", screenX - 25, 15);
+            ctx.fillStyle = '#94a3b8'; ctx.font = '12px monospace'; ctx.fillText('雙狹縫（幾何非比例）', slitX - 48, 15); ctx.fillText('偵測屏幕', screenX - 10, 15);
+            ctx.fillText(waveViewMode === 'wavefront' ? '波前間距放大示意，非真實比例' : '只顯示偵測落點，不表示未測路徑', 10, h - 8);
         }
-
-        // RENDER PARTICLE MODE (Photoelectric Effect Simulation)
-        function renderParticleSimulation(w, h) {
-            const ePhoton = HC / particleState.lambda;
-            const kMax = Math.max(0, ePhoton - particleState.phi);
-            const isEmitting = ePhoton >= particleState.phi;
-            const lightColor = wavelengthToRGB(particleState.lambda);
-
-            const cathodeX = w * 0.25;
-            const anodeX = w * 0.75;
-            const topY = h * 0.2;
-            const bottomY = h * 0.8;
-            const centerY = h * 0.5;
-
-            // Draw Vacuum Glass Tube Vacuum Chamber
-            ctx.strokeStyle = '#334155';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.roundRect(cathodeX - 30, topY - 30, (anodeX - cathodeX) + 60, (bottomY - topY) + 60, 30);
-            ctx.stroke();
-
-            // Circuit Wiring & Power Supply
-            ctx.strokeStyle = '#475569';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            // Cathode Wire down
-            ctx.moveTo(cathodeX, bottomY);
-            ctx.lineTo(cathodeX, h - 30);
-            ctx.lineTo(w * 0.4, h - 30);
-
-            // Anode Wire down
-            ctx.moveTo(anodeX, bottomY);
-            ctx.lineTo(anodeX, h - 30);
-            ctx.lineTo(w * 0.6, h - 30);
-            ctx.stroke();
-
-            // Battery / Voltage Source Box in Middle Bottom
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(w * 0.4, h - 50, w * 0.2, 40);
-            ctx.strokeRect(w * 0.4, h - 50, w * 0.2, 40);
-
-            ctx.fillStyle = particleState.voltage < 0 ? '#f43f5e' : (particleState.voltage > 0 ? '#10b981' : '#cbd5e1');
-            ctx.font = 'bold 12px monospace';
-            ctx.textAlign = 'center';
-            ctx.fillText(`V = ${particleState.voltage.toFixed(2)} V`, w * 0.5, h - 26);
-
-            // Cathode Metal Plate (Emitter)
-            ctx.fillStyle = '#64748b';
-            ctx.fillRect(cathodeX - 10, topY, 15, bottomY - topY);
-            ctx.fillStyle = '#e2e8f0';
-            ctx.fillText("陰極 (Cathode)", cathodeX - 10, topY - 10);
-
-            // Anode Metal Plate (Collector)
-            ctx.fillStyle = '#64748b';
-            ctx.fillRect(anodeX, topY, 15, bottomY - topY);
-            ctx.fillText("陽極 (Anode)", anodeX + 10, topY - 10);
-
-            // Spawn Incident Photons from Light Source
-            const spawnRate = particleState.intensity / 10;
-            if (Math.random() < spawnRate * 0.4) {
-                particleState.photons.push({
-                    x: cathodeX - 120,
-                    y: topY - 20 + Math.random() * 40,
-                    vx: 4.5,
-                    vy: (topY + Math.random() * (bottomY - topY) - (topY - 20)) / (120 / 4.5)
-                });
-            }
-
-            // Update & Render Photons
-            ctx.fillStyle = lightColor.hex;
+        function renderParticleSimulation(w, h, dt) {
+            const energy = HC_EV_NM / particleState.lambda, kMax = particleState.kMax, emits = particleState.emits, c = wavelengthToRGB(particleState.lambda);
+            const cx = w * 0.25, ax = w * 0.75, top = h * 0.2, bottom = h * 0.8, cathodeRight = cx + 14, gap = ax - cathodeRight;
+            ctx.strokeStyle = '#334155'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(cx - 25, top - 25, ax - cx + 50, bottom - top + 50, 25); ctx.stroke();
+            ctx.fillStyle = '#64748b'; ctx.fillRect(cx, top, 14, bottom - top); ctx.fillRect(ax, top, 14, bottom - top); ctx.textAlign = 'center'; ctx.fillStyle = '#e2e8f0'; ctx.font = '12px sans-serif';
+            ctx.fillText('陰極 Cathode', cx + 7, top - 9); ctx.fillText('陽極 Anode', ax + 7, top - 9);
+            particleState.accumulator += 12 * particleState.intensity / 100 * dt;
+            while (particleState.accumulator >= 1) { particleState.accumulator--; particleState.photons.push({ x: 4, y: top + Math.random() * (bottom - top) }); }
+            ctx.fillStyle = c.hex;
             for (let i = particleState.photons.length - 1; i >= 0; i--) {
-                let p = particleState.photons[i];
-                p.x += p.vx;
-                p.y += p.vy;
-
-                // Draw Wave-packet Packet Photon
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Hit Cathode Plate
-                if (p.x >= cathodeX - 10) {
-                    // Photoelectric Emission Check
-                    if (isEmitting) {
-                        // Calculate Electron Ejection Speed based on K_max
-                        // Speed ~ sqrt(K_max)
-                        const vBase = Math.sqrt(kMax) * 2.2 + 0.5;
-                        const angle = (Math.random() - 0.5) * Math.PI * 0.6; // Forward ejection cone
-
-                        particleState.electrons.push({
-                            x: cathodeX + 8,
-                            y: p.y,
-                            vx: Math.cos(angle) * vBase,
-                            vy: Math.sin(angle) * vBase
-                        });
-                        particleState.totalEmittedElectrons++;
-                    }
+                const p = particleState.photons[i]; p.x += 360 * dt; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, 2 * Math.PI); ctx.fill();
+                if (p.x >= cx) {
+                    if (emits && Math.random() < PHOTOELECTRIC_QE) particleState.electrons.push({ s: 0, u: Math.sqrt(Math.random() * kMax), y: p.y });
                     particleState.photons.splice(i, 1);
                 }
             }
-
-            // Electric Field Force Acceleration: F = e * E = e * (V / d)
-            // Acceleration a ~ Voltage V
-            const accelX = particleState.voltage * 0.08;
-
-            // Update & Render Photoelectrons
-            ctx.fillStyle = '#38bdf8'; // Cyan Electrons
+            // Normalize the electrode gap to one; u²=Kx[eV], du/dτ=V/2 -> ΔKx=+V over the gap.
+            const dtSim = dt * 4, acceleration = particleState.voltage / 2;
             for (let i = particleState.electrons.length - 1; i >= 0; i--) {
-                let e = particleState.electrons[i];
-
-                // Kinematic differential equation integration (Euler Verlet)
-                e.vx += accelX;
-                e.x += e.vx;
-                e.y += e.vy;
-
-                // Render Electron Particle with Glow
-                ctx.shadowColor = '#38bdf8';
-                ctx.shadowBlur = 6;
-                ctx.beginPath();
-                ctx.arc(e.x, e.y, 3, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0; // reset
-
-                // Check Bounds / Reaching Collector Anode
-                if (e.x >= anodeX) {
-                    // Reached Anode -> Dynamic Photocurrent Generated!
-                    particleState.arrivedElectronsCount++;
-                    particleState.electrons.splice(i, 1);
-                } else if (e.x < cathodeX - 5) {
-                    // Turned back by Retarding Stopping Voltage and absorbed by Cathode
-                    particleState.electrons.splice(i, 1);
-                } else if (e.y < topY || e.y > bottomY) {
-                    // Flew out of tube bounds
-                    particleState.electrons.splice(i, 1);
-                }
+                const e = particleState.electrons[i], nextS = e.s + e.u * dtSim + 0.5 * acceleration * dtSim * dtSim, nextU = e.u + acceleration * dtSim;
+                if (nextS >= 1 || nextS <= 0) { particleState.electrons.splice(i, 1); continue; }
+                e.s = nextS; e.u = nextU; ctx.fillStyle = '#38bdf8'; ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 6;
+                ctx.beginPath(); ctx.arc(cathodeRight + e.s * gap, e.y, 3, 0, 2 * Math.PI); ctx.fill(); ctx.shadowBlur = 0;
             }
-
-            // Real-time Current Calculation Sampling
-            particleState.timeStepCounter++;
-            if (particleState.timeStepCounter % 30 === 0) {
-                // Sample photocurrent based on arrival rate
-                particleState.arrivedElectronsCount = 0;
+            const right = particleState.voltage > 0; ctx.strokeStyle = particleState.voltage < 0 ? '#fb7185' : '#34d399'; ctx.fillStyle = ctx.strokeStyle; ctx.lineWidth = 2;
+            const arrowY = (top + bottom) / 2;
+            for (let j = 0; Math.abs(particleState.voltage) > 1e-9 && j < 3; j++) {
+                const x = cathodeRight + gap * (0.3 + 0.2 * j), dx = right ? 18 : -18;
+                ctx.beginPath(); ctx.moveTo(x - dx / 2, arrowY); ctx.lineTo(x + dx / 2, arrowY); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x + dx / 2, arrowY);
+                ctx.lineTo(x + dx / 2 - (right ? 6 : -6), arrowY - 5); ctx.lineTo(x + dx / 2 - (right ? 6 : -6), arrowY + 5); ctx.closePath(); ctx.fill();
             }
-
-            // Display Emission Status Text
-            ctx.textAlign = 'left';
-            if (!isEmitting) {
-                ctx.fillStyle = '#f43f5e';
-                ctx.font = 'bold 14px sans-serif';
-                ctx.fillText("未發生光電效應！ (入射光子能量 E < 功函數 Φ)", cathodeX + 20, topY + 30);
-            } else {
-                ctx.fillStyle = '#10b981';
-                ctx.font = 'bold 13px sans-serif';
-                ctx.fillText(`光電子持續發射中 (Kₘₐₓ = ${kMax.toFixed(2)} eV)`, cathodeX + 20, topY + 30);
-            }
+            ctx.textAlign = 'center'; ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 12px monospace'; ctx.fillText('V = Vₐ − V꜀ = ' + particleState.voltage.toFixed(2) + ' V', w * 0.5, h - 16);
+            ctx.font = '11px sans-serif'; ctx.fillText(Math.abs(particleState.voltage) < 1e-9 ? 'V = 0 時無外加電場箭頭；位置與時間已縮放' : '箭頭表示電子受力；位置與時間已縮放', w * 0.5, h - 2); ctx.textAlign = 'left'; ctx.fillStyle = emits ? '#34d399' : '#fb7185'; ctx.font = 'bold 13px sans-serif';
+            ctx.fillText(emits ? 'Eγ = ' + energy.toFixed(2) + ' eV；Kmax = ' + kMax.toFixed(2) + ' eV' : 'Eγ = ' + energy.toFixed(2) + ' eV ≤ Φ：無具正動能的光電子', cx + 26, top + 24);
+            ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.fillText('紫外線以假色表示；固定量子效率 35%', 8, 15);
         }
     </script>
 </body>
