@@ -467,7 +467,8 @@
         function drawAnalyticsChart() {
             if (!chartInstance) return;
             const chartCanvas = document.getElementById('analytics-chart');
-            const ratio = window.devicePixelRatio || 1, width = chartCanvas.clientWidth || 600, height = chartCanvas.clientHeight || 176;
+            chartCanvas.style.width = '100%'; chartCanvas.style.height = '100%'; chartCanvas.style.display = 'block';
+            const ratio = window.devicePixelRatio || 1, width = chartCanvas.parentElement.clientWidth || 600, height = chartCanvas.parentElement.clientHeight || 176;
             chartCanvas.width = Math.round(width * ratio); chartCanvas.height = Math.round(height * ratio);
             const g = chartCanvas.getContext('2d'); g.setTransform(ratio, 0, 0, ratio, 0, 0); g.clearRect(0, 0, width, height);
             const left = 54, right = 12, top = 8, bottom = 38, plotW = width - left - right, plotH = height - top - bottom;
